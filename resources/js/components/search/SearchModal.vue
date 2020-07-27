@@ -6,35 +6,27 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
 
+                    <!-- header -->
                     <div class="modal-header search-modal-header">
+
                         <input type="text"
                             class="form-control"
                             placeholder="Search Threads ..."
                             @input="search"
                             v-model="keyword">
+
                     </div>
 
+                    <!-- body -->
                     <div class="modal-body">
 
-                        <div v-if="results.length > 0">
-                            <div class="list-group">
+                        <!-- <search-tags ></search-tags> -->
 
-                                <div class="card mb-1" v-for="result in results">
-                                    <a href="#">
-                                        <div class="card-body">
-                                            <h5 class="card-title" v-html="getHighlight('title', result)"></h5>
-                                            <p class="card-text" v-html="getHighlight('body', result)"></p>
-                                        </div>
-                                    </a>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div v-else>No results</div>
+                        <search-results :results="results"></search-results>
 
                     </div>
 
+                    <!-- footer -->
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="reset">Cancel</button>
                     </div>
@@ -46,6 +38,8 @@
 </template>
 
 <script>
+    import SearchResults from "./SearchResults.vue";
+
     export default {
         data() {
             return {
@@ -57,6 +51,8 @@
                 results: [],
             }
         },
+
+        components: { SearchResults },
 
         methods: {
             reset() {
@@ -77,14 +73,6 @@
                     });
 
                 setTimeout(() => this.isSearching = false, 200);
-            },
-
-            getHighlight(field, result) {
-                let highlight = result.highlight[field] ?
-                    result.highlight[field][0] :
-                    result._source[field];
-
-                return highlight.substring(0, 100) + '...';
             }
         }
     }
