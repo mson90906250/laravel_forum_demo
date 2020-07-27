@@ -41,6 +41,7 @@ class Thread extends Model
         return [
             'title' => $this->title,
             'body' => $this->body,
+            'path' => '/threads/' . $this->channel->slug . '/' . $this->slug
         ];
     }
 

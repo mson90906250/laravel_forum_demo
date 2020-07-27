@@ -33,6 +33,8 @@ final class CreateThreadsIndex implements MigrationInterface
                     ]
                 ]
             ]);
+
+            $mapping->text('path');
         });
     }
 

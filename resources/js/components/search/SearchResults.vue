@@ -3,7 +3,7 @@
         <div v-if="results.length > 0">
             <div class="list-group">
                 <div class="card mb-1" v-for="result in results">
-                    <a href="#">
+                    <a :href="getPath(result)">
                         <div class="card-body">
                             <h5 class="card-title" v-html="getHighlight('title', result)"></h5>
                             <p class="card-text" v-html="getHighlight('body', result)"></p>
@@ -22,6 +22,10 @@
         props: ['results'],
 
         methods: {
+            getPath(result) {
+                return result._source['path'];
+            },
+
             getHighlight(field, result) {
                 let highlight = result.highlight[field] ?
                     result.highlight[field][0] :
