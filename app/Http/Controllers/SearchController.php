@@ -2,27 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Thread;
-use App\Trending;
+use App\ElasticSearchBuildHelper\ThreadBoolSearch;
 
 class SearchController extends Controller
 {
-    public function show(Trending $trending)
+    public function show()
     {
-        $search = request('q');
+        $buildHelper = new ThreadBoolSearch(request('q'));
 
-        return Thread::boolSearch()
-            ->should('match', ['title' => $search])
-            ->should('match', ['body' => $search])
+        return $buildHelper->shouldMatch(['title', 'body'], 1)
             ->size(5)
-            ->highlightRaw([
+            ->setHighlight([
                 'pre_tags' => ["<em class='search-highlight'>"],
                 'post_tags' => ["</em>"],
                 'number_of_fragments' => 1,
                 'fragment_size' => 20
             ])
-            ->highlight('title', ['type' => 'fvh', 'matched_fields' => ['title', 'title.chinese']])
-            ->highlight('body', ['type' => 'fvh', 'matched_fields' => ['body', 'body.chinese']])
-            ->raw();
+            ->highlight([
+                'title' => ['type' => 'fvh', 'matched_fields' => ['title', 'title.chinese']],
+                'body'  => ['type' => 'fvh', 'matched_fields' => ['body', 'body.chinese']]
+            ])
+            ->rawResult();
     }
 }
