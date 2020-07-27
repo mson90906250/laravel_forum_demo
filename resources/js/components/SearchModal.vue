@@ -37,7 +37,6 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="reset">Cancel</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
                     </div>
 
                 </div>
@@ -53,6 +52,8 @@
                 isSearching: false,
                 test: 'list',
                 keyword: '',
+                currentKeyword: '',
+                isSearching: false,
                 results: [],
             }
         },
@@ -64,12 +65,18 @@
             },
 
             search() {
-                if (this.keyword.length == 0) return;
+                if (this.isSearching || this.keyword.length == 0 || this.currentKeyword === this.keyword) return;
+
+                this.isSearching = true;
+                this.currentKeyword = this.keyword;
 
                 axios.get('/threads/search?q=' + this.keyword)
                     .then(({data}) => {
                         this.results = data.hits.hits;
+                        this.isSearching = false;
                     });
+
+                setTimeout(() => this.isSearching = false, 200);
             },
 
             getHighlight(field, result) {

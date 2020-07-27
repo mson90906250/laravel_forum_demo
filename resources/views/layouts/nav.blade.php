@@ -47,11 +47,9 @@
 
                 {{-- search bar --}}
                 <li class="nav-item mr-5">
-                    <form action="{{ route('search.show') }}" method="GET" class="mb-0">
-                        <div class="level">
-                            <search-modal></search-modal>
-                        </div>
-                    </form>
+                    <div class="level">
+                        <search-modal></search-modal>
+                    </div>
                 </li>
 
 
