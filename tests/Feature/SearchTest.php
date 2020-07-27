@@ -24,11 +24,11 @@ class SearchTest extends TestCase
         for ($i=0; $i<10; $i++) {
             usleep(200000);
             $results = $this->getJson(route('search.show', ['q' => $search]))->json();
-            if (count($results) >= 2) break;
+            if (count($results['hits']['hits']) >= 2) break;
         }
 
         Thread::latest()->take(4)->get()->each->delete();
 
-        $this->assertCount(2, $results);
+        $this->assertCount(2, $results['hits']['hits']);
     }
 }

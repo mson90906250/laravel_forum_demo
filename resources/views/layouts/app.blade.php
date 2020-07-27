@@ -33,6 +33,12 @@
             [v-cloak] { display: none }
             .search-modal-header { background-color: rgb(133, 170, 238) }
             .search-highlight { background-color: rgb(245, 229, 91) }
+            .text-omit {
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+            .min-width-0 { min-width: 0; }
         </style>
 
         @yield('head')

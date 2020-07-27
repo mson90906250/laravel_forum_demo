@@ -3,8 +3,8 @@
         <div class="card-header">
             <div class="level">
 
-                <div class="flex">
-                    <h4>
+                <div class="flex min-width-0">
+                    <h4 class="text-omit">
 
                         @if (auth()->check() && $thread->hasUpdatesFor(auth()->user()))
                             <strong>
