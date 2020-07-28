@@ -29,18 +29,18 @@ class Recaptcha implements Rule
         $client = new Client();
 
         $result = json_decode(
-                        $client->post("https://www.google.com/recaptcha/api/siteverify", [
-                            'verify' => false,
-                            'form_params' => [
-                                'secret' => config('services.recaptcha.secret'),
-                                'response' => $value,
-                                'remoteip' => request()->ip()
-                            ]
-                        ])
-                        ->getBody()
-                        ->getContents(),
-                        true
-                    );
+            $client->post("https://www.google.com/recaptcha/api/siteverify", [
+                'verify' => false,
+                'form_params' => [
+                    'secret' => config('services.recaptcha.secret'),
+                    'response' => $value,
+                    'remoteip' => request()->ip()
+                ]
+            ])
+            ->getBody()
+            ->getContents(),
+            true
+        );
 
         return $result['success'];
     }

@@ -54,6 +54,10 @@
                 };
 
                 this.editing = false;
+            },
+
+            change(data) {
+                this.form.body = data.value;
             }
         }
     }
