@@ -13,7 +13,7 @@ class UserAvatarController extends Controller
     {
         $user = auth()->user();
 
-        $oldAvatar = $user->avatar_path;
+        $oldAvatar = $user->getRawOriginal('avatar_path');
 
         $request->validate([
             'avatar' => ['required', 'image']

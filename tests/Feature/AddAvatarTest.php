@@ -62,4 +62,25 @@ class AddAvatarTest extends TestCase
 
         $this->assertEquals(Storage::url('avatars/me.jpg'), $user->avatar_path);
     }
+
+    /** @test */
+    public function the_replaced_avatar_should_be_deleted()
+    {
+        $this->withExceptionHandling()
+            ->signIn();
+
+        Storage::fake('public');
+
+        $this->json('POST', '/api/users/1/avatar', [
+            'avatar' => $file = UploadedFile::fake()->image('avatar.jpg')
+        ]);
+
+        $this->json('POST', '/api/users/1/avatar', [
+            'avatar' => $newFile = UploadedFile::fake()->image('avatar2.jpg')
+        ]);
+
+        Storage::disk('public')->assertExists('avatars/' . $newFile->hashName());
+
+        Storage::disk('public')->assertMissing('avatars/' . $file->hashName());
+    }
 }
