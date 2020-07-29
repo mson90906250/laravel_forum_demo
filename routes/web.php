@@ -56,8 +56,9 @@ Route::group([
     // api/userAvatar
     Route::post('/api/users/{user}/avatar', 'Api\UserAvatarController@store')->name('avatar');
 
-    // api/threadImage
-    Route::post('/api/threads/image', 'Api\ThreadImageController@store')->name('threadImage.store');
+    // api/trixImage
+    Route::post('/api/images/trix', 'Api\TrixImageController@store')->name('trixImage.store');
+    Route::delete('/api/images/trix', 'Api\TrixImageController@destroy')->name('trixImage.destroy');
 });
 
 Route::get('/home', 'HomeController@index')->name('home');

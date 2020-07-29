@@ -12634,6 +12634,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['name', 'value'],
@@ -12643,16 +12644,9 @@ __webpack_require__.r(__webpack_exports__);
         "value": e.target.innerHTML
       });
     },
-    preventDefault: function preventDefault(e) {
-      e.preventDefault();
-    },
     uploadAttachmentFile: function uploadAttachmentFile(e) {
-      if (!e.attachment.file || e.attachment.file.size > 512 * 1024) {
-        return;
-      }
-
+      if (!e.attachment.file || e.attachment.file.size > 512 * 1024) return;
       var attachment = e.attachment;
-      console.log(attachment.file.size);
       this.uploadFile(attachment.file, setProgress, setAttributes);
 
       function setProgress(progress) {
@@ -12672,12 +12666,18 @@ __webpack_require__.r(__webpack_exports__);
       });
       var data = new FormData();
       data.append('image', file);
-      request.post('/api/threads/image', data).then(function (response) {
-        var attributes = {
-          "url": response.data.url,
-          "filePath": response.data.filePath
-        };
-        successCallback(attributes);
+      request.post('/api/images/trix', data).then(function (response) {
+        successCallback(response.data);
+      });
+    },
+    removeAttachmentFile: function removeAttachmentFile(e) {
+      var filePath = e.attachment.attachment.attributes.values.filePath;
+      axios["delete"]('/api/images/trix', {
+        "data": {
+          "image": filePath
+        }
+      }).then(function (response) {
+        console.log(response);
       });
     }
   }
@@ -71007,7 +71007,8 @@ var render = function() {
         attrs: { input: "trix" },
         on: {
           "trix-change": _vm.change,
-          "trix-attachment-add": _vm.uploadAttachmentFile
+          "trix-attachment-add": _vm.uploadAttachmentFile,
+          "trix-attachment-remove": _vm.removeAttachmentFile
         }
       })
     ],

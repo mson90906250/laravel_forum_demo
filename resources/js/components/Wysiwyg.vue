@@ -4,7 +4,8 @@
         <trix-editor class="trix-content"
             input="trix"
             @trix-change="change"
-            @trix-attachment-add="uploadAttachmentFile"></trix-editor>
+            @trix-attachment-add="uploadAttachmentFile"
+            @trix-attachment-remove="removeAttachmentFile"></trix-editor>
     </div>
 </template>
 
@@ -20,13 +21,9 @@
             },
 
             uploadAttachmentFile(e) {
-                if (! e.attachment.file || e.attachment.file.size > 512 * 1024) {
-                    return;
-                }
+                if (! e.attachment.file || e.attachment.file.size > 512 * 1024) return;
 
                 let attachment = e.attachment;
-
-                console.log(attachment.file.size);
 
                 this.uploadFile(attachment.file, setProgress, setAttributes)
 
@@ -43,7 +40,7 @@
 
                 let request = axios.create({
                         onUploadProgress(e) {
-                            var progress = event.loaded / event.total * 100;
+                            let progress = event.loaded / event.total * 100;
                             progressCallback(progress);
                         }
                     });
@@ -51,14 +48,18 @@
                 let data = new FormData;
                 data.append('image', file);
 
-                request.post('/api/threads/image', data)
+                request.post('/api/images/trix', data)
                     .then(response => {
-                        let attributes = {
-                            "url": response.data.url,
-                            "filePath": response.data.filePath
-                        };
+                        successCallback(response.data);
+                    });
+            },
 
-                        successCallback(attributes);
+            removeAttachmentFile(e) {
+                let filePath = e.attachment.attachment.attributes.values.filePath;
+
+                axios.delete('/api/images/trix', { "data": { "image": filePath } })
+                    .then(response => {
+                        console.log(response);
                     });
             }
         }
