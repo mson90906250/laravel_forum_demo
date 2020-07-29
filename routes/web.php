@@ -55,6 +55,9 @@ Route::group([
 
     // api/userAvatar
     Route::post('/api/users/{user}/avatar', 'Api\UserAvatarController@store')->name('avatar');
+
+    // api/threadImage
+    Route::post('/api/threads/image', 'Api\ThreadImageController@store')->name('threadImage.store');
 });
 
 Route::get('/home', 'HomeController@index')->name('home');

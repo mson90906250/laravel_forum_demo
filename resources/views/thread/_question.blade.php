@@ -9,7 +9,9 @@
     </div>
 
     <div class="card-body">
-        <wysiwyg name="body" :value="form.body" @trix-change="change"></wysiwyg>
+        <wysiwyg name="body"
+            :value="form.body"
+            @trix-change="change"></wysiwyg>
     </div>
 
     <div class="card-footer">
