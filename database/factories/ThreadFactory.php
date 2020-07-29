@@ -10,7 +10,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Thread::class, function (Faker $faker) {
 
-    $title = $faker->sentence();
+    $title = $faker->words(5, true);
 
     return [
         'user_id'       => factory(User::class),

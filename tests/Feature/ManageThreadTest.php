@@ -116,7 +116,7 @@ class ManageThreadTest extends TestCase
 
         $latestId = Thread::latest()->value('id');
 
-        $this->assertTrue(Thread::where('slug', "foo-title-{$latestId}")->exists());
+        $this->assertTrue(Thread::where('slug', $latestId ? "Foo+Title-{$latestId}" : "Foo+Title")->exists());
     }
 
     /** @test */

@@ -178,10 +178,10 @@ class Thread extends Model
 
     public function setSlugAttribute($value)
     {
-        $slug = Str::slug($value);
+        $slug = urlencode($value);
 
         $latestId = static::latest()->value('id');
 
-        $this->attributes['slug'] = "{$slug}-{$latestId}";
+        $this->attributes['slug'] = $latestId ? "{$slug}-{$latestId}" : $slug;
     }
 }
