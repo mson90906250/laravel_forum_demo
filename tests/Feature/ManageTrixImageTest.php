@@ -7,7 +7,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
-class AddTrixImageTest extends TestCase
+class ManageTrixImageTest extends TestCase
 {
     use RefreshDatabase;
 
