@@ -19,10 +19,6 @@
                 this.$emit('trix-change', {"value": e.target.innerHTML});
             },
 
-            preventDefault(e) {
-                e.preventDefault();
-            },
-
             uploadAttachmentFile(e) {
                 if (! e.attachment.file || e.attachment.file.size > 512 * 1024) {
                     return;
