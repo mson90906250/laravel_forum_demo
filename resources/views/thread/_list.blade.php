@@ -32,8 +32,8 @@
 
             </div>
         </div>
-        <div class="card-body">
-            <p>{{ $thread->body }}</p>
+        <div class="card-body trix-content">
+            <p>{!! $thread->body !!}</p>
         </div>
         <div class="card-footer level">
             {{ sprintf(

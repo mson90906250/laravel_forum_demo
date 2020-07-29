@@ -49,7 +49,7 @@
 
     </div>
 
-    <div class="card-body" v-html="body"></div>
+    <div class="card-body trix-content" v-html="body"></div>
 
     <div class="card-footer" v-if="authorize('owns', thread)">
         <button class="btn btn-sm btn-warning" @click="editing = true">Edit</button>
