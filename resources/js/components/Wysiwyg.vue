@@ -4,6 +4,7 @@
         <trix-editor class="trix-content"
             input="trix"
             @trix-change="change"
+            @trix-file-accept="check"
             @trix-attachment-add="uploadAttachmentFile"
             @trix-attachment-remove="removeAttachmentFile"></trix-editor>
     </div>
@@ -18,6 +19,13 @@
         methods: {
             change(e) {
                 this.$emit('trix-change', {"value": e.target.innerHTML});
+            },
+
+            check(e) {
+                if (e.file.size > 512 * 1024) {
+                    flash("Image size must be less than or equals to 512KB", 'warning');
+                    e.preventDefault();
+                }
             },
 
             uploadAttachmentFile(e) {

@@ -12635,6 +12635,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['name', 'value'],
@@ -12643,6 +12644,12 @@ __webpack_require__.r(__webpack_exports__);
       this.$emit('trix-change', {
         "value": e.target.innerHTML
       });
+    },
+    check: function check(e) {
+      if (e.file.size > 512 * 1024) {
+        flash("Image size must be less than or equals to 512KB", 'warning');
+        e.preventDefault();
+      }
     },
     uploadAttachmentFile: function uploadAttachmentFile(e) {
       if (!e.attachment.file || e.attachment.file.size > 512 * 1024) return;
@@ -71007,6 +71014,7 @@ var render = function() {
         attrs: { input: "trix" },
         on: {
           "trix-change": _vm.change,
+          "trix-file-accept": _vm.check,
           "trix-attachment-add": _vm.uploadAttachmentFile,
           "trix-attachment-remove": _vm.removeAttachmentFile
         }
