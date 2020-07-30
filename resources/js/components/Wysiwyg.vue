@@ -16,21 +16,25 @@
     export default {
         props: ['name', 'value'],
 
+        data() {
+            return {
+                persistList: []
+            };
+        },
+
         methods: {
             change(e) {
                 this.$emit('trix-change', {"value": e.target.innerHTML});
             },
 
             check(e) {
-                if (e.file.size > 512 * 1024) {
+                if (! e.file || e.file.size > 512 * 1024) {
                     flash("Image size must be less than or equals to 512KB", 'warning');
                     e.preventDefault();
                 }
             },
 
             uploadAttachmentFile(e) {
-                if (! e.attachment.file || e.attachment.file.size > 512 * 1024) return;
-
                 let attachment = e.attachment;
 
                 this.uploadFile(attachment.file, setProgress, setAttributes)
@@ -57,8 +61,11 @@
                 data.append('image', file);
 
                 request.post('/api/images/trix', data)
-                    .then(response => {
-                        successCallback(response.data);
+                    .then(({data}) => {
+                        this.persistList.push(data.cacheKey);
+                        delete data.cacheKey;
+
+                        successCallback(data);
                     });
             },
 

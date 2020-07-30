@@ -2,10 +2,11 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\TrixImage;
+use Tests\TestCase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ManageTrixImageTest extends TestCase
 {
@@ -22,6 +23,8 @@ class ManageTrixImageTest extends TestCase
         Storage::fake('public');
 
         $this->fileFactory = UploadedFile::fake();
+
+        TrixImage::reset();
     }
 
     /** @test */
@@ -81,5 +84,25 @@ class ManageTrixImageTest extends TestCase
         $this->deleteJson(route('trixImage.destroy'), ['image' => 'images/trix/' . $image->hashName()]);
 
         Storage::disk('public')->assertMissing('images/trix/' . $image->hashName());
+    }
+
+    /** @test */
+    public function filePath_of_images_will_be_added_to_redis_after_uploaded()
+    {
+        // 在圖片上傳後(尚未與db同步), 產生出來的圖片路徑將會存入redis
+        $this->signIn();
+
+        $normalImage = $this->fileFactory->image('normal_image.jpg')->size(512);
+
+        $response = $this->postJson(route('trixImage.store'), [
+                'image' => $normalImage
+            ])->json();
+
+        $this->assertEquals(
+            $response['filePath'],
+            TrixImage::get(TrixImage::rpop())
+        );
+
+        TrixImage::reset();
     }
 }

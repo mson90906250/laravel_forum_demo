@@ -12639,6 +12639,11 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['name', 'value'],
+  data: function data() {
+    return {
+      persistList: []
+    };
+  },
   methods: {
     change: function change(e) {
       this.$emit('trix-change', {
@@ -12646,13 +12651,12 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     check: function check(e) {
-      if (e.file.size > 512 * 1024) {
+      if (!e.file || e.file.size > 512 * 1024) {
         flash("Image size must be less than or equals to 512KB", 'warning');
         e.preventDefault();
       }
     },
     uploadAttachmentFile: function uploadAttachmentFile(e) {
-      if (!e.attachment.file || e.attachment.file.size > 512 * 1024) return;
       var attachment = e.attachment;
       this.uploadFile(attachment.file, setProgress, setAttributes);
 
@@ -12665,6 +12669,8 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     uploadFile: function uploadFile(file, progressCallback, successCallback) {
+      var _this = this;
+
       var request = axios.create({
         onUploadProgress: function onUploadProgress(e) {
           var progress = event.loaded / event.total * 100;
@@ -12673,8 +12679,13 @@ __webpack_require__.r(__webpack_exports__);
       });
       var data = new FormData();
       data.append('image', file);
-      request.post('/api/images/trix', data).then(function (response) {
-        successCallback(response.data);
+      request.post('/api/images/trix', data).then(function (_ref) {
+        var data = _ref.data;
+
+        _this.persistList.push(data.cacheKey);
+
+        delete data.cacheKey;
+        successCallback(data);
       });
     },
     removeAttachmentFile: function removeAttachmentFile(e) {
