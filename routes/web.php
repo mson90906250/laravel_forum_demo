@@ -58,6 +58,7 @@ Route::group([
 
     // api/trixImage
     Route::post('/api/images/trix', 'Api\TrixImageController@store')->name('trixImage.store');
+    Route::patch('/api/images/trix', 'Api\TrixImageController@update')->name('trixImage.update');
     Route::delete('/api/images/trix', 'Api\TrixImageController@destroy')->name('trixImage.destroy');
 });
 

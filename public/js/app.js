@@ -12638,11 +12638,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['name', 'value'],
+  props: ['name', 'value', 'trixPersist'],
   data: function data() {
     return {
-      persistList: []
+      persistList: [] // 用來記錄要與db同步的圖片
+
     };
+  },
+  watch: {
+    trixPersist: function trixPersist() {
+      this.persist();
+    }
   },
   methods: {
     change: function change(e) {
@@ -12686,6 +12692,15 @@ __webpack_require__.r(__webpack_exports__);
 
         delete data.cacheKey;
         successCallback(data);
+      });
+    },
+    persist: function persist() {
+      var _this2 = this;
+
+      axios.patch('/api/images/trix', {
+        "persistList": this.persistList
+      }).then(function (response) {
+        _this2.$emit('persist-complete');
       });
     },
     removeAttachmentFile: function removeAttachmentFile(e) {
@@ -12864,6 +12879,7 @@ __webpack_require__.r(__webpack_exports__);
       title: this.thread.title,
       body: this.thread.body,
       editing: false,
+      persist: false,
       form: {}
     };
   },
@@ -12871,6 +12887,10 @@ __webpack_require__.r(__webpack_exports__);
     this.resetForm();
   },
   methods: {
+    toggleEdit: function toggleEdit() {
+      this.editing = true;
+      this.persist = false;
+    },
     toggleLock: function toggleLock() {
       var uri = "/lock-thread/".concat(this.thread.slug);
       axios[this.locked ? 'delete' : 'post'](uri);
@@ -12883,7 +12903,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.patch(uri, this.form).then(function () {
         _this.title = _this.form.title;
         _this.body = _this.form.body;
-        _this.editing = false;
+        _this.persist = true;
         flash('Your thread has been updated!!');
       })["catch"](function (_ref) {
         var response = _ref.response;

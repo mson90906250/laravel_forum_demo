@@ -89,7 +89,7 @@ class ManageTrixImageTest extends TestCase
     /** @test */
     public function filePath_of_images_will_be_added_to_redis_after_uploaded()
     {
-        // 在圖片上傳後(尚未與db同步), 產生出來的圖片路徑將會存入redis
+        // 在圖片上傳後(尚未與db同步), 產生出來的圖片路徑將會存入redis的待刪名單中
         $this->signIn();
 
         $normalImage = $this->fileFactory->image('normal_image.jpg')->size(512);
@@ -102,6 +102,60 @@ class ManageTrixImageTest extends TestCase
             $response['filePath'],
             TrixImage::get(TrixImage::rpop())
         );
+
+        TrixImage::reset();
+    }
+
+    /** @test */
+    public function images_should_be_persisted_after_updated_or_stored()
+    {
+        // 在文章更新或發布時, 上傳的圖片必須從待刪除名單(redis)中去掉, 以免被誤刪
+        $this->signIn();
+
+        $image = $this->fileFactory->image('normal_image.jpg');
+
+        // 儲存圖片並加入redis待刪名單中
+        $response = $this->postJson(route('trixImage.store'), [
+                'image' => $image
+            ])->json();
+
+        $persistList = [$response['cacheKey']];
+
+        // 與db同步
+       $this->patchJson(
+            route('trixImage.update'),
+            ['persistList' => $persistList]
+        );
+
+        $this->assertFalse(TrixImage::exists($response['cacheKey']));
+
+        TrixImage::reset();
+    }
+
+    /** @test */
+    public function images_not_persisted_should_be_deleted()
+    {
+        // 刪除圖片會交由worker執行, 在這裡會模擬整個刪除流程
+        $this->signIn();
+
+        $image = $this->fileFactory->image('normal_image.jpg');
+
+        $this->postJson(route('trixImage.store'), [
+            'image' => $image
+        ])->json();
+
+        // 假設文章無法順利更新或創建
+        $cacheKey = TrixImage::rpop();  // 從待刪名單中取出一筆
+
+        if (! TrixImage::exists($cacheKey)) return; // 該圖片已不存在於待刪名單中, 即已經與db同步了
+
+        $filePath = TrixImage::get($cacheKey);
+
+        if (Storage::disk('public')->exists($filePath)) {
+            Storage::disk('public')->delete($filePath);
+        }
+
+        Storage::disk('public')->assertMissing($filePath);
 
         TrixImage::reset();
     }

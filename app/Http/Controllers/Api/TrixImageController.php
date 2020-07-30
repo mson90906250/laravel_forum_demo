@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Storage;
 
 class TrixImageController extends Controller
 {
+    /**
+     * store temp image
+     *
+     * @param Request $request
+     * @return array
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -26,6 +32,23 @@ class TrixImageController extends Controller
         return $returnData;
     }
 
+    /**
+     * persist images with db
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function update(Request $request)
+    {
+        TrixImage::persist($request->get('persistList'));
+    }
+
+    /**
+     * remove images from storage
+     *
+     * @param Request $request
+     * @return void
+     */
     public function destroy(Request $request)
     {
        return Storage::disk('public')->delete($request->get('image'));

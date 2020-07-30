@@ -15,6 +15,7 @@
                 title: this.thread.title,
                 body: this.thread.body,
                 editing: false,
+                persist: false,
                 form: {}
             }
         },
@@ -24,6 +25,11 @@
         },
 
         methods: {
+            toggleEdit() {
+                this.editing = true;
+                this.persist = false;
+            },
+
             toggleLock() {
                 let uri = `/lock-thread/${this.thread.slug}`;
 
@@ -40,7 +46,7 @@
                         this.title = this.form.title;
                         this.body = this.form.body;
 
-                        this.editing = false;
+                        this.persist = true;
 
                         flash('Your thread has been updated!!');
                     })

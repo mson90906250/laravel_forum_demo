@@ -14,12 +14,18 @@
     import Trix from "trix";
 
     export default {
-        props: ['name', 'value'],
+        props: ['name', 'value', 'trixPersist'],
 
         data() {
             return {
-                persistList: []
+                persistList: [] // 用來記錄要與db同步的圖片
             };
+        },
+
+        watch: {
+            trixPersist: function () {
+                this.persist();
+            }
         },
 
         methods: {
@@ -49,7 +55,6 @@
             },
 
             uploadFile(file, progressCallback, successCallback) {
-
                 let request = axios.create({
                         onUploadProgress(e) {
                             let progress = event.loaded / event.total * 100;
@@ -67,6 +72,13 @@
 
                         successCallback(data);
                     });
+            },
+
+            persist() {
+                axios.patch('/api/images/trix', {"persistList": this.persistList})
+                    .then(response => {
+                        this.$emit('persist-complete');
+                    })
             },
 
             removeAttachmentFile(e) {

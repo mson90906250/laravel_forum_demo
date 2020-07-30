@@ -41,9 +41,27 @@ class TrixImage
         return Redis::hget(static::getHashTable(), $cacheKey);
     }
 
-    public static function rpop()
+    public static function persist($persistList)
     {
-        return Redis::rpop(static::getDeleteList());
+        // 將image從待刪名單中剔除
+        foreach ($persistList as $cacheKey) {
+            Redis::hdel(static::getHashTable(), $cacheKey);
+        }
+    }
+
+    public static function rpop($date = '')
+    {
+        return Redis::rpop(static::getDeleteList($date));
+    }
+
+    public static function exists($cacheKey)
+    {
+        return boolval(
+            Redis::hexists(
+                static::getHashTable(),
+                $cacheKey
+            )
+        );
     }
 
     public static function reset()
@@ -57,11 +75,11 @@ class TrixImage
         return static::$hashTableName;
     }
 
-    protected static function getDeleteList($date = '')
+    public static function getDeleteList($date = '')
     {
         return sprintf(
             static::$deleteListName,
-            $date ?? date('Y-m-d')
+            $date ?: date('Y-m-d')
         );
     }
 }
