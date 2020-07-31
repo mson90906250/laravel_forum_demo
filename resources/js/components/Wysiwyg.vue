@@ -1,8 +1,8 @@
 <template>
     <div>
-        <input id="trix" type="hidden" :name="name" :value="value">
+        <input :id="id" type="hidden" :name="name" :value="value">
         <trix-editor class="trix-content"
-            input="trix"
+            :input="id"
             @trix-change="change"
             @trix-file-accept="check"
             @trix-attachment-add="uploadAttachmentFile"
@@ -14,7 +14,7 @@
     import Trix from "trix";
 
     export default {
-        props: ['name', 'value', 'trixPersist'],
+        props: ['id', 'name', 'value', 'trixPersist'],
 
         data() {
             return {
@@ -25,6 +25,8 @@
 
         watch: {
             trixPersist: function () {
+                if (! this.trixPersist) return;
+
                 this.persist();
                 this.deletePersist();
             }
@@ -36,8 +38,10 @@
             },
 
             check(e) {
+                this.$emit('trix-file-accept', e);
+
                 if (! e.file || e.file.size > 512 * 1024) {
-                    flash("Image size must be less than or equals to 512KB", 'warning');
+                    flash("Image size must be less than or equals to 512KB", 'danger');
                     e.preventDefault();
                 }
             },

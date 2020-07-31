@@ -18,13 +18,19 @@
         <div class="card-body">
             <div v-if="editing">
                 <form @submit.prevent="update">
-                    <textarea class="mb-1 form-control" v-model="body" required></textarea>
+                    <wysiwyg id="edit-reply"
+                        name="body"
+                        :value="body"
+                        @trix-file-accept="cancelUpload"
+                        @trix-change="change"></wysiwyg>
                     <button class="btn btn-sm btn-primary">Update</button>
                     <button type="button" class="btn btn-sm btn-link" @click="editing = false; body = reply.body">Cancel</button>
                 </form>
             </div>
 
-            <div v-else v-html="body"></div>
+            <div v-else
+                v-html="body"
+                class="trix-content"></div>
         </div>
 
         <div class="card-footer level" v-if="authorize('owns', reply) || authorize('owns', reply.thread)">
@@ -76,6 +82,10 @@
         },
 
         methods: {
+            change(data) {
+                this.body = data.value;
+            },
+
             update() {
                 axios.patch('/replies/' + this.reply.id, {
                     body: this.body
@@ -106,6 +116,11 @@
                 axios.post('/thread/'+ this.reply.id +'/best');
 
                 window.events.$emit('best-reply-marked', this.reply.id);
+            },
+
+            cancelUpload(e) {
+                e.preventDefault();
+                flash('目前reply不提供上傳圖片的功能 !!', 'danger');
             }
         }
     }

@@ -9,7 +9,8 @@
     </div>
 
     <div class="card-body">
-        <wysiwyg name="body"
+        <wysiwyg id="edit-thread"
+            name="body"
             :value="form.body"
             :trix-persist="persist"
             @trix-change="change"

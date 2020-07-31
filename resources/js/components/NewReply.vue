@@ -1,7 +1,13 @@
 <template>
     <div>
         <div v-if="signIn">
-            <textarea id="body" class="form-control" rows="5" placeholder="say something to reply ?" v-model="body"></textarea>
+            <div class="bg-white p-1">
+                <wysiwyg id="new-reply"
+                    name="body"
+                    @trix-file-accept="cancelUpload"
+                    @trix-change="change"></wysiwyg>
+            </div>
+
             <button class="btn btn-primary mt-3" @click="addReply">reply</button>
         </div>
 
@@ -19,7 +25,7 @@
         data() {
             return {
                 body: '',
-                endpoint: location.pathname + '/replies'
+                endpoint: location.pathname + '/replies',
             }
         },
 
@@ -28,6 +34,10 @@
         },
 
         methods: {
+            change(data) {
+                this.body = data.value;
+            },
+
             addReply() {
                 axios.post(this.endpoint, { body: this.body} )
                     .catch(({response}) => {
@@ -59,8 +69,13 @@
                     },
                 });
 
-                tribute.attach(document.getElementById('body'));
+                tribute.attach(document.getElementById('new-reply'));
+            },
+
+            cancelUpload(e) {
+                e.preventDefault();
+                flash('目前reply不提供上傳圖片的功能 !!', 'danger');
             }
         }
     }
-</script>>
+</script>

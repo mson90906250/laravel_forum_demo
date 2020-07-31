@@ -12187,6 +12187,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -12199,6 +12205,9 @@ __webpack_require__.r(__webpack_exports__);
     this.prepareTribute();
   },
   methods: {
+    change: function change(data) {
+      this.body = data.value;
+    },
     addReply: function addReply() {
       var _this = this;
 
@@ -12235,7 +12244,11 @@ __webpack_require__.r(__webpack_exports__);
           }, 500);
         }
       });
-      tribute.attach(document.getElementById('body'));
+      tribute.attach(document.getElementById('new-reply'));
+    },
+    cancelUpload: function cancelUpload(e) {
+      e.preventDefault();
+      flash('目前reply不提供上傳圖片的功能 !!', 'danger');
     }
   }
 });
@@ -12461,6 +12474,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -12491,6 +12510,9 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
+    change: function change(data) {
+      this.body = data.value;
+    },
     update: function update() {
       var _this2 = this;
 
@@ -12518,6 +12540,10 @@ __webpack_require__.r(__webpack_exports__);
     markBestReply: function markBestReply() {
       axios.post('/thread/' + this.reply.id + '/best');
       window.events.$emit('best-reply-marked', this.reply.id);
+    },
+    cancelUpload: function cancelUpload(e) {
+      e.preventDefault();
+      flash('目前reply不提供上傳圖片的功能 !!', 'danger');
     }
   }
 });
@@ -12637,7 +12663,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['name', 'value', 'trixPersist'],
+  props: ['id', 'name', 'value', 'trixPersist'],
   data: function data() {
     return {
       persistList: [],
@@ -12648,6 +12674,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   watch: {
     trixPersist: function trixPersist() {
+      if (!this.trixPersist) return;
       this.persist();
       this.deletePersist();
     }
@@ -12659,8 +12686,10 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     check: function check(e) {
+      this.$emit('trix-file-accept', e);
+
       if (!e.file || e.file.size > 512 * 1024) {
-        flash("Image size must be less than or equals to 512KB", 'warning');
+        flash("Image size must be less than or equals to 512KB", 'danger');
         e.preventDefault();
       }
     },
@@ -70596,31 +70625,20 @@ var render = function() {
   return _c("div", [
     _vm.signIn
       ? _c("div", [
-          _c("textarea", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.body,
-                expression: "body"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: {
-              id: "body",
-              rows: "5",
-              placeholder: "say something to reply ?"
-            },
-            domProps: { value: _vm.body },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
+          _c(
+            "div",
+            { staticClass: "bg-white p-1" },
+            [
+              _c("wysiwyg", {
+                attrs: { id: "new-reply", name: "body" },
+                on: {
+                  "trix-file-accept": _vm.cancelUpload,
+                  "trix-change": _vm.change
                 }
-                _vm.body = $event.target.value
-              }
-            }
-          }),
+              })
+            ],
+            1
+          ),
           _vm._v(" "),
           _c(
             "button",
@@ -70874,25 +70892,11 @@ var render = function() {
                 }
               },
               [
-                _c("textarea", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.body,
-                      expression: "body"
-                    }
-                  ],
-                  staticClass: "mb-1 form-control",
-                  attrs: { required: "" },
-                  domProps: { value: _vm.body },
+                _c("wysiwyg", {
+                  attrs: { id: "edit-reply", name: "body", value: _vm.body },
                   on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.body = $event.target.value
-                    }
+                    "trix-file-accept": _vm.cancelUpload,
+                    "trix-change": _vm.change
                   }
                 }),
                 _vm._v(" "),
@@ -70914,10 +70918,14 @@ var render = function() {
                   },
                   [_vm._v("Cancel")]
                 )
-              ]
+              ],
+              1
             )
           ])
-        : _c("div", { domProps: { innerHTML: _vm._s(_vm.body) } })
+        : _c("div", {
+            staticClass: "trix-content",
+            domProps: { innerHTML: _vm._s(_vm.body) }
+          })
     ]),
     _vm._v(" "),
     _vm.authorize("owns", _vm.reply) || _vm.authorize("owns", _vm.reply.thread)
@@ -71087,13 +71095,13 @@ var render = function() {
     "div",
     [
       _c("input", {
-        attrs: { id: "trix", type: "hidden", name: _vm.name },
+        attrs: { id: _vm.id, type: "hidden", name: _vm.name },
         domProps: { value: _vm.value }
       }),
       _vm._v(" "),
       _c("trix-editor", {
         staticClass: "trix-content",
-        attrs: { input: "trix" },
+        attrs: { input: _vm.id },
         on: {
           "trix-change": _vm.change,
           "trix-file-accept": _vm.check,
