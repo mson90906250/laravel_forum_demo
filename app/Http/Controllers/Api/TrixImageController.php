@@ -51,6 +51,6 @@ class TrixImageController extends Controller
      */
     public function destroy(Request $request)
     {
-       return Storage::disk('public')->delete($request->get('image'));
+       return Storage::disk('public')->delete($request->get('images'));
     }
 }

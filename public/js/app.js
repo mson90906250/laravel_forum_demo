@@ -12640,13 +12640,16 @@ __webpack_require__.r(__webpack_exports__);
   props: ['name', 'value', 'trixPersist'],
   data: function data() {
     return {
-      persistList: [] // 用來記錄要與db同步的圖片
+      persistList: [],
+      // 用來記錄要與db同步的圖片
+      deleteList: [] // 用來紀錄將被刪除的圖片
 
     };
   },
   watch: {
     trixPersist: function trixPersist() {
       this.persist();
+      this.deletePersist();
     }
   },
   methods: {
@@ -12704,9 +12707,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     removeAttachmentFile: function removeAttachmentFile(e) {
       var filePath = e.attachment.attachment.attributes.values.filePath;
+      this.deleteList.push(filePath);
+    },
+    deletePersist: function deletePersist() {
       axios["delete"]('/api/images/trix', {
         "data": {
-          "image": filePath
+          "images": this.deleteList
         }
       }).then(function (response) {
         console.log(response);

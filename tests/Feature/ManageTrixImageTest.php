@@ -34,6 +34,8 @@ class ManageTrixImageTest extends TestCase
 
         $this->postJson(route('trixImage.store', $thread), ['image' => null])
             ->assertStatus(401);
+
+        TrixImage::reset();
     }
 
     /** @test */
@@ -52,6 +54,8 @@ class ManageTrixImageTest extends TestCase
         $this->assertEquals(Storage::url('images/trix/' . $normalImage->hashName()), $response['url']);
 
         Storage::disk('public')->assertExists('images/trix/' . $normalImage->hashName());
+
+        TrixImage::reset();
     }
 
     /** @test */
@@ -66,10 +70,12 @@ class ManageTrixImageTest extends TestCase
             ])->assertStatus(422);
 
         Storage::disk('public')->assertMissing('images/trix/' . $bigImage->hashName());
+
+        TrixImage::reset();
     }
 
     /** @test */
-    public function images_can_be_removed()
+    public function an_image_can_be_removed()
     {
         $this->signIn();
 
@@ -81,9 +87,40 @@ class ManageTrixImageTest extends TestCase
 
         Storage::disk('public')->assertExists('images/trix/' . $image->hashName());
 
-        $this->deleteJson(route('trixImage.destroy'), ['image' => 'images/trix/' . $image->hashName()]);
+        $this->deleteJson(route('trixImage.destroy'), ['images' => 'images/trix/' . $image->hashName()]);
 
         Storage::disk('public')->assertMissing('images/trix/' . $image->hashName());
+
+        TrixImage::reset();
+    }
+
+    /** @test */
+    public function multiple_images_can_be_removed_at_once()
+    {
+        $this->signIn();
+
+        $image = $this->fileFactory->image('foobar.jpg');
+        $otherImage = $this->fileFactory->image('other.jpg');
+
+        $this->postJson(route('trixImage.store'), [
+            'image' => $image
+        ]);
+
+        $this->postJson(route('trixImage.store'), [
+            'image' => $otherImage
+        ]);
+
+        $this->deleteJson(route('trixImage.destroy'), [
+            'images' => [
+                'images/trix/' . $image->hashName(),
+                'images/trix/' . $otherImage->hashName(),
+            ]
+        ]);
+
+        Storage::disk('public')->assertMissing('images/trix/' . $image->hashName());
+        Storage::disk('public')->assertMissing('images/trix/' . $otherImage->hashName());
+
+        TrixImage::reset();
     }
 
     /** @test */
@@ -138,10 +175,8 @@ class ManageTrixImageTest extends TestCase
         // 刪除圖片會交由worker執行, 在這裡會模擬整個刪除流程
         $this->signIn();
 
-        $image = $this->fileFactory->image('normal_image.jpg');
-
         $this->postJson(route('trixImage.store'), [
-            'image' => $image
+            'image' => $this->fileFactory->image('image.jpg')
         ])->json();
 
         // 假設文章無法順利更新或創建
@@ -151,11 +186,10 @@ class ManageTrixImageTest extends TestCase
 
         $filePath = TrixImage::get($cacheKey);
 
-        if (Storage::disk('public')->exists($filePath)) {
-            Storage::disk('public')->delete($filePath);
-        }
-
-        Storage::disk('public')->assertMissing($filePath);
+        tap(Storage::disk('public'), function ($storage) use ($filePath) {
+            $storage->delete($filePath);
+            $storage->assertMissing($filePath);
+        });
 
         TrixImage::reset();
     }

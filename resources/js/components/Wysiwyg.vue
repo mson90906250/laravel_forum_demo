@@ -18,13 +18,15 @@
 
         data() {
             return {
-                persistList: [] // 用來記錄要與db同步的圖片
+                persistList: [], // 用來記錄要與db同步的圖片
+                deleteList: [] // 用來紀錄將被刪除的圖片
             };
         },
 
         watch: {
             trixPersist: function () {
                 this.persist();
+                this.deletePersist();
             }
         },
 
@@ -84,7 +86,11 @@
             removeAttachmentFile(e) {
                 let filePath = e.attachment.attachment.attributes.values.filePath;
 
-                axios.delete('/api/images/trix', { "data": { "image": filePath } })
+                this.deleteList.push(filePath);
+            },
+
+            deletePersist() {
+                axios.delete('/api/images/trix', { "data": { "images": this.deleteList } })
                     .then(response => {
                         console.log(response);
                     });
