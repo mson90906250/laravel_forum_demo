@@ -1,10 +1,9 @@
 <template>
-    <div
-        class="alert alert-flash"
+    <div class="alert alert-flash"
         :class="'alert-' + level"
         role="alert"
         v-show="show"
-        v-text="body"></div>
+        v-html="body"></div>
 </template>
 
 <script>
@@ -39,7 +38,7 @@
             hide() {
                 setTimeout(() => {
                     this.show = false;
-                }, 3000);
+                }, 5000);
             }
         }
     }

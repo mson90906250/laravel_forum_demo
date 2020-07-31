@@ -50,7 +50,9 @@
 
                         flash('Your thread has been updated!!');
                     })
-                    .catch(({response}) => flash(response.data, 'error'));
+                    .catch(({response}) => {
+                        flash(response.data, 'error')
+                    });
             },
 
             resetForm() {

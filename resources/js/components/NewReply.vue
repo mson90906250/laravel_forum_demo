@@ -31,7 +31,7 @@
             addReply() {
                 axios.post(this.endpoint, { body: this.body} )
                     .catch(({response}) => {
-                        flash(response.data.message, 'danger');
+                        flash(response.data, 'danger');
                     })
                     .then(({data}) => {
                         this.body = '';
