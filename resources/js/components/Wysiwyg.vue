@@ -90,10 +90,7 @@
             },
 
             deletePersist() {
-                axios.delete('/api/images/trix', { "data": { "images": this.deleteList } })
-                    .then(response => {
-                        console.log(response);
-                    });
+                axios.delete('/api/images/trix', { "data": { "images": this.deleteList } });
             }
         }
     }

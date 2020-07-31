@@ -12714,8 +12714,6 @@ __webpack_require__.r(__webpack_exports__);
         "data": {
           "images": this.deleteList
         }
-      }).then(function (response) {
-        console.log(response);
       });
     }
   }

@@ -24,8 +24,8 @@ Route::group([
     'middleware' => 'auth'
 ], function () {
     //thread
-    Route::get('/threads/create', 'ThreadController@create')->name('thread.create');
-    Route::post('/threads/create', 'ThreadController@store')->name('thread.store')->middleware('verified');
+    Route::get('/threads/create', 'ThreadController@create')->name('thread.create')->middleware('verified');
+    Route::post('/threads/create', 'ThreadController@store')->name('thread.store');
     Route::patch('/threads/{channel}/{thread}', 'ThreadController@update')->name('thread.update');
     Route::delete('/threads/{channel}/{thread}', 'ThreadController@destroy')->name('thread.destroy');
 
