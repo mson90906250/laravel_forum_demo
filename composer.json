@@ -17,6 +17,7 @@
         "laravel/framework": "^7.0",
         "laravel/scout": "^8.1",
         "laravel/tinker": "^2.0",
+        "stevebauman/purify": "^3.0",
         "workerman/workerman": "^4.0"
     },
     "require-dev": {

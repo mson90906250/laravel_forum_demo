@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use App\Filters\ThreadFilter;
 use Laravel\Scout\Searchable;
 use App\Events\ThreadReceiveNewReply;
+use Stevebauman\Purify\Facades\Purify;
 use Illuminate\Database\Eloquent\Model;
 use ElasticScoutDriverPlus\CustomSearch;
 use Illuminate\Database\Eloquent\Builder;
@@ -39,8 +40,8 @@ class Thread extends Model
     public function toSearchableArray()
     {
         return [
-            'title' => $this->title,
-            'body' => $this->body,
+            'title' => Purify::clean($this->title),
+            'body' => Purify::clean($this->body),
             'path' => '/threads/' . $this->channel->slug . '/' . $this->slug
         ];
     }
