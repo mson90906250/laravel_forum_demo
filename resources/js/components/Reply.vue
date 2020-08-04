@@ -20,8 +20,8 @@
                 <form @submit.prevent="update">
                     <wysiwyg id="edit-reply"
                         name="body"
+                        accept-file="false"
                         :value="body"
-                        @trix-file-accept="cancelUpload"
                         @trix-change="change"></wysiwyg>
                     <button class="btn btn-sm btn-primary">Update</button>
                     <button type="button" class="btn btn-sm btn-link" @click="editing = false; body = reply.body">Cancel</button>
@@ -116,11 +116,6 @@
                 axios.post('/thread/'+ this.reply.id +'/best');
 
                 window.events.$emit('best-reply-marked', this.reply.id);
-            },
-
-            cancelUpload(e) {
-                e.preventDefault();
-                flash('目前reply不提供上傳圖片的功能 !!', 'danger');
             }
         }
     }

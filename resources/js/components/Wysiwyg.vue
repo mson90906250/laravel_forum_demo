@@ -14,7 +14,7 @@
     import Trix from "trix";
 
     export default {
-        props: ['id', 'name', 'value', 'trixPersist'],
+        props: ['id', 'name', 'value', 'trixPersist', 'acceptFile'],
 
         data() {
             return {
@@ -38,6 +38,11 @@
             },
 
             check(e) {
+                if (this.acceptFile === "false") {
+                    this.cancelUpload(e);
+                    return;
+                }
+
                 this.$emit('trix-file-accept', e);
 
                 if (! e.file || e.file.size > 512 * 1024) {
@@ -102,6 +107,11 @@
                 }
 
                 this.$emit('persist-complete');
+            },
+
+            cancelUpload(e) {
+                e.preventDefault();
+                flash('目前reply不提供上傳圖片的功能 !!', 'danger');
             }
         }
     }

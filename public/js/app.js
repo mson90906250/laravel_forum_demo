@@ -12245,10 +12245,6 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
       tribute.attach(document.getElementById('new-reply'));
-    },
-    cancelUpload: function cancelUpload(e) {
-      e.preventDefault();
-      flash('目前reply不提供上傳圖片的功能 !!', 'danger');
     }
   }
 });
@@ -12540,10 +12536,6 @@ __webpack_require__.r(__webpack_exports__);
     markBestReply: function markBestReply() {
       axios.post('/thread/' + this.reply.id + '/best');
       window.events.$emit('best-reply-marked', this.reply.id);
-    },
-    cancelUpload: function cancelUpload(e) {
-      e.preventDefault();
-      flash('目前reply不提供上傳圖片的功能 !!', 'danger');
     }
   }
 });
@@ -12663,7 +12655,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['id', 'name', 'value', 'trixPersist'],
+  props: ['id', 'name', 'value', 'trixPersist', 'acceptFile'],
   data: function data() {
     return {
       persistList: [],
@@ -12686,6 +12678,11 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     check: function check(e) {
+      if (this.acceptFile === "false") {
+        this.cancelUpload(e);
+        return;
+      }
+
       this.$emit('trix-file-accept', e);
 
       if (!e.file || e.file.size > 512 * 1024) {
@@ -12748,6 +12745,10 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       this.$emit('persist-complete');
+    },
+    cancelUpload: function cancelUpload(e) {
+      e.preventDefault();
+      flash('目前reply不提供上傳圖片的功能 !!', 'danger');
     }
   }
 });
@@ -70634,11 +70635,12 @@ var render = function() {
             { staticClass: "bg-white p-1" },
             [
               _c("wysiwyg", {
-                attrs: { id: "new-reply", name: "body" },
-                on: {
-                  "trix-file-accept": _vm.cancelUpload,
-                  "trix-change": _vm.change
-                }
+                attrs: {
+                  id: "new-reply",
+                  name: "body",
+                  "accept-file": "false"
+                },
+                on: { "trix-change": _vm.change }
               })
             ],
             1
@@ -70897,11 +70899,13 @@ var render = function() {
               },
               [
                 _c("wysiwyg", {
-                  attrs: { id: "edit-reply", name: "body", value: _vm.body },
-                  on: {
-                    "trix-file-accept": _vm.cancelUpload,
-                    "trix-change": _vm.change
-                  }
+                  attrs: {
+                    id: "edit-reply",
+                    name: "body",
+                    "accept-file": "false",
+                    value: _vm.body
+                  },
+                  on: { "trix-change": _vm.change }
                 }),
                 _vm._v(" "),
                 _c("button", { staticClass: "btn btn-sm btn-primary" }, [

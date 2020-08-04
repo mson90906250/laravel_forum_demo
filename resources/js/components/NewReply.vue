@@ -4,7 +4,7 @@
             <div class="bg-white p-1">
                 <wysiwyg id="new-reply"
                     name="body"
-                    @trix-file-accept="cancelUpload"
+                    accept-file="false"
                     @trix-change="change"></wysiwyg>
             </div>
 
@@ -70,11 +70,6 @@
                 });
 
                 tribute.attach(document.getElementById('new-reply'));
-            },
-
-            cancelUpload(e) {
-                e.preventDefault();
-                flash('目前reply不提供上傳圖片的功能 !!', 'danger');
             }
         }
     }
