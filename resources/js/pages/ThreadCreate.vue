@@ -29,7 +29,7 @@
                         this.persist = true;
                     })
                     .catch(({response}) => {
-                        console.log(response);
+                        flash(response.data, 'error');
                     })
             },
 
