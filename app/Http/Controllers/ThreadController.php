@@ -110,8 +110,6 @@ class ThreadController extends Controller
         ]);
 
         $thread->update($validatedData);
-
-        return $thread;
     }
 
     /**

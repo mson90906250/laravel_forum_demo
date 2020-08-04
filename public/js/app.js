@@ -12726,24 +12726,28 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     persist: function persist() {
-      var _this2 = this;
+      if (this.persistList.length > 0) {
+        axios.patch('/api/images/trix', {
+          "persistList": this.persistList
+        });
+      }
 
-      axios.patch('/api/images/trix', {
-        "persistList": this.persistList
-      }).then(function (response) {
-        _this2.$emit('persist-complete');
-      });
+      this.$emit('persist-complete');
     },
     removeAttachmentFile: function removeAttachmentFile(e) {
       var filePath = e.attachment.attachment.attributes.values.filePath;
       this.deleteList.push(filePath);
     },
     deletePersist: function deletePersist() {
-      axios["delete"]('/api/images/trix', {
-        "data": {
-          "images": this.deleteList
-        }
-      });
+      if (this.deleteList.length > 0) {
+        axios["delete"]('/api/images/trix', {
+          "data": {
+            "images": this.deleteList
+          }
+        });
+      }
+
+      this.$emit('persist-complete');
     }
   }
 });
@@ -12994,7 +12998,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.persist = true;
       })["catch"](function (_ref2) {
         var response = _ref2.response;
-        console.log(response);
+        flash(response.data, 'error');
       });
     },
     redirect: function redirect() {

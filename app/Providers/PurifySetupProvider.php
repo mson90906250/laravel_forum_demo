@@ -54,6 +54,8 @@ class PurifySetupProvider extends ServiceProvider
     {
         $def->addElement('figure', 'Inline', 'Inline', 'Common');
         $def->addAttribute('figure', 'class', 'Text');
+        $def->addAttribute('figure', 'contenteditable', 'Enum#true,false');
+        $def->addAttribute('figure', 'data-trix-attachment', 'Text');
 
         $def->addElement('figcaption', 'Inline', 'Inline', 'Common');
         $def->addAttribute('figcaption', 'class', 'Text');
