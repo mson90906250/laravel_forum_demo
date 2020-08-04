@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Visit;
+use Illuminate\Support\Str;
 use App\Filters\ThreadFilter;
 use Laravel\Scout\Searchable;
 use App\Events\ThreadReceiveNewReply;
@@ -185,7 +186,7 @@ class Thread extends Model
 
     public function setSlugAttribute($value)
     {
-        $slug = urlencode($value);
+        $slug = Str::slug($value, '-', null);
 
         $latestId = static::latest()->value('id');
 
