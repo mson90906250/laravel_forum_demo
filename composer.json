@@ -16,7 +16,8 @@
         "guzzlehttp/guzzle": "7.0",
         "laravel/framework": "^7.0",
         "laravel/scout": "^8.1",
-        "laravel/tinker": "^2.0"
+        "laravel/tinker": "^2.0",
+        "workerman/workerman": "^4.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.3",

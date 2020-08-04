@@ -191,6 +191,9 @@ class ManageTrixImageTest extends TestCase
             $storage->assertMissing($filePath);
         });
 
+        TrixImage::delete($cacheKey);
+        $this->assertFalse(TrixImage::exists($cacheKey));
+
         TrixImage::reset();
     }
 }

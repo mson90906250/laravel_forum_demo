@@ -41,6 +41,11 @@ class TrixImage
         return Redis::hget(static::getHashTable(), $cacheKey);
     }
 
+    public static function delete($cacheKey)
+    {
+        Redis::hdel(static::getHashTable(), $cacheKey);
+    }
+
     public static function persist($persistList)
     {
         // 將image從待刪名單中剔除
