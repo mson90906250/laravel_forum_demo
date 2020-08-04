@@ -81,10 +81,12 @@
             },
 
             persist() {
-                axios.patch('/api/images/trix', {"persistList": this.persistList})
-                    .then(response => {
-                        this.$emit('persist-complete');
-                    })
+
+                if (this.persistList.length > 0) {
+                    axios.patch('/api/images/trix', {"persistList": this.persistList});
+                }
+
+                this.$emit('persist-complete');
             },
 
             removeAttachmentFile(e) {
@@ -94,7 +96,12 @@
             },
 
             deletePersist() {
-                axios.delete('/api/images/trix', { "data": { "images": this.deleteList } });
+
+                if (this.deleteList.length > 0) {
+                    axios.delete('/api/images/trix', { "data": { "images": this.deleteList } });
+                }
+
+                this.$emit('persist-complete');
             }
         }
     }
