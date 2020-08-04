@@ -12171,8 +12171,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var tributejs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tributejs */ "./node_modules/tributejs/dist/tribute.min.js");
-/* harmony import */ var tributejs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(tributejs__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _mixins_Tribute_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixins/Tribute.js */ "./resources/js/mixins/Tribute.js");
+//
 //
 //
 //
@@ -12201,9 +12201,7 @@ __webpack_require__.r(__webpack_exports__);
       endpoint: location.pathname + '/replies'
     };
   },
-  mounted: function mounted() {
-    this.prepareTribute();
-  },
+  mixins: [_mixins_Tribute_js__WEBPACK_IMPORTED_MODULE_0__["default"]],
   methods: {
     change: function change(data) {
       this.body = data.value;
@@ -12223,28 +12221,6 @@ __webpack_require__.r(__webpack_exports__);
         var response = _ref2.response;
         flash(response.data.message, 'danger');
       });
-    },
-    prepareTribute: function prepareTribute() {
-      if (!this.signIn) return;
-      var delayFlag = false; //用來控制axios觸發的時間間隔
-
-      var currentData = [];
-      var tribute = new tributejs__WEBPACK_IMPORTED_MODULE_0___default.a({
-        fillAttr: 'name',
-        lookup: 'name',
-        values: function values(text, callback) {
-          if (delayFlag) return callback(currentData);
-          delayFlag = true;
-          axios.get('/api/users?name=' + text).then(function (_ref3) {
-            var data = _ref3.data;
-            return callback(data);
-          });
-          setTimeout(function () {
-            return delayFlag = false;
-          }, 500);
-        }
-      });
-      tribute.attach(document.getElementById('new-reply'));
     }
   }
 });
@@ -12428,6 +12404,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Favorite_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Favorite.vue */ "./resources/js/components/Favorite.vue");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _mixins_Tribute_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../mixins/Tribute.js */ "./resources/js/mixins/Tribute.js");
 //
 //
 //
@@ -12476,6 +12453,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -12484,11 +12463,14 @@ __webpack_require__.r(__webpack_exports__);
     return {
       editing: false,
       body: this.reply.body,
-      isBest: this.reply.isBest
+      isBest: this.reply.isBest,
+      tributeId: ''
     };
   },
+  mixins: [_mixins_Tribute_js__WEBPACK_IMPORTED_MODULE_2__["default"]],
   computed: {
     replyId: function replyId() {
+      this.tributeId = 'edit-reply-' + this.reply.id;
       return 'reply-' + this.reply.id;
     },
     ago: function ago() {
@@ -12653,6 +12635,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['id', 'name', 'value', 'trixPersist', 'acceptFile'],
@@ -12663,6 +12646,16 @@ __webpack_require__.r(__webpack_exports__);
       deleteList: [] // 用來紀錄將被刪除的圖片
 
     };
+  },
+  computed: {
+    trixId: function trixId() {
+      return 'trix-' + this.id;
+    }
+  },
+  mounted: function mounted() {
+    this.$emit('trix-mounted', {
+      'id': this.trixId
+    });
   },
   watch: {
     trixPersist: function trixPersist() {
@@ -70640,7 +70633,10 @@ var render = function() {
                   name: "body",
                   "accept-file": "false"
                 },
-                on: { "trix-change": _vm.change }
+                on: {
+                  "trix-mounted": _vm.prepareTribute,
+                  "trix-change": _vm.change
+                }
               })
             ],
             1
@@ -70900,12 +70896,15 @@ var render = function() {
               [
                 _c("wysiwyg", {
                   attrs: {
-                    id: "edit-reply",
+                    id: _vm.tributeId,
                     name: "body",
                     "accept-file": "false",
                     value: _vm.body
                   },
-                  on: { "trix-change": _vm.change }
+                  on: {
+                    "trix-mounted": _vm.prepareTribute,
+                    "trix-change": _vm.change
+                  }
                 }),
                 _vm._v(" "),
                 _c("button", { staticClass: "btn btn-sm btn-primary" }, [
@@ -71109,7 +71108,7 @@ var render = function() {
       _vm._v(" "),
       _c("trix-editor", {
         staticClass: "trix-content",
-        attrs: { input: _vm.id },
+        attrs: { id: _vm.trixId, input: _vm.id },
         on: {
           "trix-change": _vm.change,
           "trix-file-accept": _vm.check,
@@ -84623,6 +84622,47 @@ __webpack_require__.r(__webpack_exports__);
     add: function add(item) {
       this.items.push(item);
       this.$emit('added');
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/mixins/Tribute.js":
+/*!****************************************!*\
+  !*** ./resources/js/mixins/Tribute.js ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var tributejs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tributejs */ "./node_modules/tributejs/dist/tribute.min.js");
+/* harmony import */ var tributejs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(tributejs__WEBPACK_IMPORTED_MODULE_0__);
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  methods: {
+    prepareTribute: function prepareTribute(data) {
+      if (!this.signIn) return;
+      var delayFlag = false; //用來控制axios觸發的時間間隔
+
+      var currentData = [];
+      var tribute = new tributejs__WEBPACK_IMPORTED_MODULE_0___default.a({
+        fillAttr: 'name',
+        lookup: 'name',
+        values: function values(text, callback) {
+          if (delayFlag) return callback(currentData);
+          delayFlag = true;
+          axios.get('/api/users?name=' + text).then(function (_ref) {
+            var data = _ref.data;
+            return callback(data);
+          });
+          setTimeout(function () {
+            return delayFlag = false;
+          }, 500);
+        }
+      });
+      tribute.attach(document.getElementById(data.id));
     }
   }
 });

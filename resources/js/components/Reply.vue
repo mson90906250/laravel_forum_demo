@@ -18,10 +18,11 @@
         <div class="card-body">
             <div v-if="editing">
                 <form @submit.prevent="update">
-                    <wysiwyg id="edit-reply"
+                    <wysiwyg :id="tributeId"
                         name="body"
                         accept-file="false"
                         :value="body"
+                        @trix-mounted='prepareTribute'
                         @trix-change="change"></wysiwyg>
                     <button class="btn btn-sm btn-primary">Update</button>
                     <button type="button" class="btn btn-sm btn-link" @click="editing = false; body = reply.body">Cancel</button>
@@ -49,6 +50,7 @@
 <script>
     import Favorite from './Favorite.vue';
     import moment from 'moment';
+    import tribute from '../mixins/Tribute.js';
 
     export default {
         props: ['reply'],
@@ -58,11 +60,15 @@
                 editing: false,
                 body: this.reply.body,
                 isBest: this.reply.isBest,
+                tributeId: ''
             }
         },
 
+        mixins: [tribute],
+
         computed: {
             replyId() {
+                this.tributeId='edit-reply-' + this.reply.id;
                 return 'reply-' + this.reply.id
             },
 

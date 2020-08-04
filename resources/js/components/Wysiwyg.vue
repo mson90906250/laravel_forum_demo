@@ -2,6 +2,7 @@
     <div>
         <input :id="id" type="hidden" :name="name" :value="value">
         <trix-editor class="trix-content"
+            :id="trixId"
             :input="id"
             @trix-change="change"
             @trix-file-accept="check"
@@ -21,6 +22,16 @@
                 persistList: [], // 用來記錄要與db同步的圖片
                 deleteList: [] // 用來紀錄將被刪除的圖片
             };
+        },
+
+        computed: {
+            trixId() {
+                return 'trix-' + this.id;
+            }
+        },
+
+        mounted() {
+            this.$emit('trix-mounted', {'id': this.trixId});
         },
 
         watch: {
