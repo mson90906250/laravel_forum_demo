@@ -40,14 +40,14 @@
 
             addReply() {
                 axios.post(this.endpoint, { body: this.body} )
-                    .catch(({response}) => {
-                        flash(response.data, 'danger');
-                    })
                     .then(({data}) => {
                         this.body = '';
                         flash('Your reply has been posted');
                         this.$emit('created', data);
-                    });
+                    })
+                    .catch(({response}) => {
+                        flash(response.data.message, 'danger');
+                    })
             },
 
             prepareTribute() {

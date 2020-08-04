@@ -62,7 +62,7 @@ class Handler extends ExceptionHandler
 
             $errorMessage .= '</ul>';
 
-            return response($errorMessage, 422);
+            return response(['message' => $errorMessage], 422);
         }
 
         return parent::render($request, $exception);

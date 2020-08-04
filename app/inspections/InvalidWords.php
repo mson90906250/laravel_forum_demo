@@ -14,7 +14,7 @@ class InvalidWords
     {
         foreach ($this->invalidWords as $invalidWord) {
             if (stripos($body, $invalidWord) !== false) {
-                throw new Exception('The body contain spam word');
+                throw new Exception('The :attribute contain spam word');
             }
         }
     }

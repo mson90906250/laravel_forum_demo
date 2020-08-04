@@ -8,6 +8,8 @@ use Illuminate\Contracts\Validation\Rule;
 
 class SpamFree implements Rule
 {
+    protected $message;
+
     /**
      * Create a new rule instance.
      *
@@ -30,6 +32,7 @@ class SpamFree implements Rule
         try {
             return ! resolve(Spam::class)->detect($value);
         } catch (Exception $e) {
+            $this->message = $e->getMessage();
             return false;
         }
 
@@ -42,6 +45,6 @@ class SpamFree implements Rule
      */
     public function message()
     {
-        return 'Ths :attribute contains spam';
+        return $this->message;
     }
 }

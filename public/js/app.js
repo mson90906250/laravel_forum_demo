@@ -12213,15 +12213,15 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.post(this.endpoint, {
         body: this.body
-      })["catch"](function (_ref) {
-        var response = _ref.response;
-        flash(response.data, 'danger');
-      }).then(function (_ref2) {
-        var data = _ref2.data;
+      }).then(function (_ref) {
+        var data = _ref.data;
         _this.body = '';
         flash('Your reply has been posted');
 
         _this.$emit('created', data);
+      })["catch"](function (_ref2) {
+        var response = _ref2.response;
+        flash(response.data.message, 'danger');
       });
     },
     prepareTribute: function prepareTribute() {
@@ -12525,7 +12525,7 @@ __webpack_require__.r(__webpack_exports__);
 
         _this2.$emit('reply-updated', data.body);
       })["catch"](function (error) {
-        flash(error.response.data, 'danger');
+        flash(error.response.data.message, 'danger');
         _this2.body = _this2.reply.body;
       });
     },
@@ -12943,7 +12943,7 @@ __webpack_require__.r(__webpack_exports__);
         flash('Your thread has been updated!!');
       })["catch"](function (_ref) {
         var response = _ref.response;
-        flash(response.data, 'error');
+        flash(response.data.message, 'error');
       });
     },
     resetForm: function resetForm() {
@@ -12998,7 +12998,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.persist = true;
       })["catch"](function (_ref2) {
         var response = _ref2.response;
-        flash(response.data, 'error');
+        flash(response.data.message, 'error');
       });
     },
     redirect: function redirect() {

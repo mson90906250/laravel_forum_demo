@@ -96,7 +96,7 @@
                     this.$emit('reply-updated', data.body);
                 })
                 .catch(error => {
-                    flash(error.response.data, 'danger');
+                    flash(error.response.data.message, 'danger');
                     this.body = this.reply.body;
                 });
             },

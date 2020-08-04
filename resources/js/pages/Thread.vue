@@ -51,7 +51,7 @@
                         flash('Your thread has been updated!!');
                     })
                     .catch(({response}) => {
-                        flash(response.data, 'error')
+                        flash(response.data.message, 'error')
                     });
             },
 
