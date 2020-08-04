@@ -3,7 +3,6 @@
 namespace App;
 
 use App\Visit;
-use Illuminate\Support\Str;
 use App\Filters\ThreadFilter;
 use Laravel\Scout\Searchable;
 use App\Events\ThreadReceiveNewReply;
@@ -39,9 +38,11 @@ class Thread extends Model
 
     public function toSearchableArray()
     {
+        $config = ['HTML.Allowed' => 'div,h1,h2,h3,h4,h5,h6,b,strong,i,em,del,a,ul,ol,li,p,br,span,pre'];
+
         return [
-            'title' => Purify::clean($this->title),
-            'body' => Purify::clean($this->body),
+            'title' => $this->title,
+            'body' => Purify::clean($this->body, $config),
             'path' => '/threads/' . $this->channel->slug . '/' . $this->slug
         ];
     }
@@ -133,6 +134,11 @@ class Thread extends Model
         return $this->subscriptions()
                 ->where('user_id', auth()->id())
                 ->exists();
+    }
+
+    public function getBodyAttribute($body)
+    {
+        return Purify::clean($body);
     }
 
     /**

@@ -67,7 +67,7 @@ return [
         |
         */
 
-        'HTML.Allowed' => 'div,h1,h2,h3,h4,h5,h6,b,strong,i,em,del,a[title],ul,ol,li,p[style],br,span,pre',
+        'HTML.Allowed' => 'div[class],h1,h2,h3,h4,h5,h6,b,strong,i,em,del,a[title],ul,ol,li,p[style],br,span,pre,figure[class],figcaption,img[src]',
 
         /*
         |--------------------------------------------------------------------------
