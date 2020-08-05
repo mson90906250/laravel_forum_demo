@@ -23,16 +23,34 @@ class TrendingThreadsTest extends TestCase
     }
 
     /** @test */
-    public function when_a_user_visit_a_thread_the_view_number_of_that_thread_will_be_increased_by_1()
+    public function when_a_user_visit_a_thread_the_score_of_that_thread_will_be_increased_by_1()
     {
         $thread = create('App\Thread');
 
-        $this->assertCount(0, $this->trending->get());
+        $this->assertEquals(0, $this->trending->score($thread));
 
         $this->get(route('thread.show', $thread->pathParams()));
 
-        $this->assertCount(1, $this->trending->get());
+        $this->assertEquals(1, $this->trending->score($thread));
 
         $this->assertEquals($thread->title, $this->trending->get()[0]->title);
+    }
+
+    /** @test */
+    public function its_trending_record_will_be_removed_after_a_thread_being_deleted()
+    {
+        $this->signIn();
+
+        $thread = create('App\Thread', ['user_id' => auth()->id()]);
+
+        $this->get(route('thread.show', $thread->pathParams()));
+
+        $this->delete(route('thread.destroy', $thread->pathParams()));
+
+        $this->assertDatabaseMissing('threads', ['slug' => $thread->slug, 'id' => $thread->id]);
+
+        $this->assertFalse($this->trending->score($thread));
+
+        $this->assertCount(0, $this->trending->get());
     }
 }

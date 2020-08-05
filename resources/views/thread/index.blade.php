@@ -20,7 +20,7 @@
                             <ul class="list-group">
                                 @foreach($trending as $thread)
                                     <li class="list-group-item">
-                                        <a href="{{ $thread->path }}">{{ $thread->title }}</a>
+                                        <a href="{{ $thread->path }}">{{ "$loop->iteration. " . $thread->title }}</a>
                                     </li>
                                 @endforeach
                             </ul>
