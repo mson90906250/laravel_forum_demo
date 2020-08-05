@@ -110,13 +110,12 @@ class ManageThreadTest extends TestCase
     {
         $this->signIn();
 
-        $thread = create('App\Thread', ['title' => 'Foo Title']);
+        $thread = create('App\Thread', ['title' => 'Foo Title', 'Slug' => 'Foo Title']);
 
         $this->post(route('thread.store'), $thread->toArray() + ['g-recaptcha-response' => 'token']);
 
-        $latestId = Thread::latest()->value('id');
-
-        $this->assertTrue(Thread::where('slug', $latestId ? "Foo+Title-{$latestId}" : "Foo+Title")->exists());
+        $this->assertTrue(Thread::where('slug', "foo-title")->exists());
+        $this->assertTrue(Thread::where('slug', "foo-title-{$thread->id}")->exists());
     }
 
     /** @test */

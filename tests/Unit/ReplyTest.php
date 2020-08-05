@@ -51,12 +51,13 @@ class ReplyTest extends TestCase
     /** @test */
     public function it_wraps_mentioned_username_in_anchor_tags()
     {
+        // 符號 "\u{008D}" 是種non-printable 符號 目的是用來方便區隔文字
         $reply = new \App\Reply([
-            'body' => 'Hello @MarkLin.'
+            'body' => 'Hello @MarkLin' . "\u{008D}"
         ]);
 
         $this->assertEquals(
-            'Hello <a href="/profiles/MarkLin">@MarkLin</a>.',
+            'Hello <a href="/profiles/MarkLin">@MarkLin'. "\u{008D}" .'</a>',
             $reply->body
         );
     }
