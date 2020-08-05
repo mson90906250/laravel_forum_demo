@@ -84650,6 +84650,9 @@ __webpack_require__.r(__webpack_exports__);
       var tribute = new tributejs__WEBPACK_IMPORTED_MODULE_0___default.a({
         fillAttr: 'name',
         lookup: 'name',
+        selectTemplate: function selectTemplate(item) {
+          return '@' + item.original.name + '&#141;'; //在後面添加無法顯示的符號 以方便做區隔 '&#141;' => 'U+008D'
+        },
         values: function values(text, callback) {
           if (delayFlag) return callback(currentData);
           delayFlag = true;
@@ -84659,7 +84662,7 @@ __webpack_require__.r(__webpack_exports__);
           });
           setTimeout(function () {
             return delayFlag = false;
-          }, 500);
+          }, 200);
         }
       });
       tribute.attach(document.getElementById(data.id));

@@ -10,6 +10,9 @@ export default {
             let tribute = new Tribute({
                 fillAttr: 'name',
                 lookup: 'name',
+                selectTemplate: function (item) {
+                    return '@' + item.original.name + '&#141;'; //在後面添加無法顯示的符號 以方便做區隔 '&#141;' => 'U+008D'
+                },
                 values(text, callback) {
 
                     if (delayFlag) return callback(currentData);
@@ -18,7 +21,7 @@ export default {
                     axios.get('/api/users?name=' + text)
                         .then(({data}) => callback(data));
 
-                    setTimeout(() => delayFlag = false, 500);
+                    setTimeout(() => delayFlag = false, 200);
                 },
             });
 
