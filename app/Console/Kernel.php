@@ -27,11 +27,8 @@ class Kernel extends ConsoleKernel
     {
         // 每日清理前一天的待刪圖片
         $schedule->command('trix:clear start')
-            ->daily()
-            ->runInBackground()
-            ->when(function () {
-                return Carbon::now()->hour > 12;
-            });
+            ->dailyAt('12:00')
+            ->runInBackground();
     }
 
     /**
