@@ -18,7 +18,6 @@ class Thread extends Model
 
     protected $fillable = ['user_id', 'title', 'body', 'channel_id', 'slug', 'best_reply_id', 'locked'];
     protected $with = ['channel', 'owner'];
-    protected $appends = ['isSubscribedTo'];
     protected $trending;
     protected $casts = [
         'locked' => 'boolean'

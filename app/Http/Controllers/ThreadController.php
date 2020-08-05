@@ -85,6 +85,8 @@ class ThreadController extends Controller
             auth()->user()->read($thread);
         }
 
+        $thread->append('isSubscribedTo');
+
         $trending->push($thread);
 
         return view('thread.show', compact('thread'));
