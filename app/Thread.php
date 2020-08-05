@@ -19,7 +19,7 @@ class Thread extends Model
     protected $fillable = ['user_id', 'title', 'body', 'channel_id', 'slug', 'best_reply_id', 'locked'];
     protected $with = ['channel', 'owner'];
     protected $appends = ['isSubscribedTo'];
-    protected $visits;
+    protected $trending;
     protected $casts = [
         'locked' => 'boolean'
     ];
@@ -77,9 +77,10 @@ class Thread extends Model
         return $this->hasMany('App\SubscriptionThread');
     }
 
-    public function visits()
+    public function visitCount()
     {
-        return $this->visits ?? $this->visits = new Visit($this);
+        $this->trending = $this->trending ?: new Trending;
+        return $this->trending->score($this);
     }
 
     /**

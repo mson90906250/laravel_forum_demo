@@ -38,8 +38,8 @@
         <div class="card-footer level">
             {{ sprintf(
                 '%s %s',
-                $thread->visits()->count(),
-                Str::plural('Visit', $thread->visits()->count())) }}
+                $thread->visitCount(),
+                Str::plural('Visit', $thread->visitCount())) }}
         </div>
     </div>
 @empty

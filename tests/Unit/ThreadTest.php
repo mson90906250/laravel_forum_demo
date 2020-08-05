@@ -141,24 +141,6 @@ class ThreadTest extends TestCase
     }
 
     /** @test */
-    public function it_can_record_each_visit()
-    {
-        $thread = make('App\Thread');
-
-        $thread->visits()->reset();
-
-        $this->assertSame(0, $thread->visits()->count());
-
-        $thread->visits()->record();
-
-        $this->assertEquals(1, $thread->visits()->count());
-
-        $thread->visits()->record();
-
-        $this->assertEquals(2, $thread->visits()->count());
-    }
-
-    /** @test */
     public function threads_can_be_searched()
     {
         $this->useScoutDriver();
