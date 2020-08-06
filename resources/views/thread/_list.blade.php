@@ -21,8 +21,11 @@
                     </h4>
 
                     <h6>
-                        Posted by <a href="{{ route('profile.show', ['user' => $thread->owner->name]) }}">{{ $thread->owner->name }}</a>
-                        <img src="{{ $thread->owner->avatar_path }}" width="25px" alt="">
+                        <a href="{{ route('profile.show', ['user' => $thread->owner->name]) }}">
+                            <img src="{{ $thread->owner->avatar_path }}" width="25px" alt="">
+                            {{ $thread->owner->name }}
+                        </a>
+                        發表
                     </h6>
                 </div>
 

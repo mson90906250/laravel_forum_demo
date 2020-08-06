@@ -28,8 +28,8 @@
                     <div class="card mb-2">
 
                         <div class="card-body">
-                            <p>This thread was posted {{ $thread->created_at->diffForHumans() }} by <a href="#">{{ $thread->owner->name }}</a>.</p>
-                            Now it has <span v-text="repliesCount"></span> {{ Str::plural('comment', $thread->replies_count) }}.
+                            <p>這篇文章發表於 {{ $thread->created_at->diffForHumans() }} by <a href="{{ route('profile.show', ['user' => $thread->owner->name]) }}">{{ $thread->owner->name }}</a>.</p>
+                            目前有 <span v-text="repliesCount"></span> 則回覆
 
                             <div class="level mt-3">
 

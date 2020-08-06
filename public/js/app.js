@@ -70648,13 +70648,13 @@ var render = function() {
               staticClass: "btn btn-primary mt-3",
               on: { click: _vm.addReply }
             },
-            [_vm._v("reply")]
+            [_vm._v("回覆")]
           )
         ])
       : _c("p", { staticClass: "text-center" }, [
-          _vm._v("\n        Please "),
-          _c("a", { attrs: { href: "/login" } }, [_vm._v("sign in")]),
-          _vm._v(" to participate in the forum\n    ")
+          _vm._v("\n        請先 "),
+          _c("a", { attrs: { href: "/login" } }, [_vm._v("登入")]),
+          _vm._v(" 來參與回覆\n    ")
         ])
   ])
 }
@@ -70869,7 +70869,7 @@ var render = function() {
                 attrs: { href: "/profiles/" + _vm.reply.owner.name },
                 domProps: { textContent: _vm._s(_vm.reply.owner.name) }
               }),
-              _vm._v("\n                said "),
+              _vm._v("\n                回覆於 "),
               _c("span", { domProps: { textContent: _vm._s(_vm.ago) } })
             ]),
             _vm._v(" "),
@@ -70908,7 +70908,7 @@ var render = function() {
                 }),
                 _vm._v(" "),
                 _c("button", { staticClass: "btn btn-sm btn-primary" }, [
-                  _vm._v("Update")
+                  _vm._v("更新")
                 ]),
                 _vm._v(" "),
                 _c(
@@ -70923,7 +70923,7 @@ var render = function() {
                       }
                     }
                   },
-                  [_vm._v("Cancel")]
+                  [_vm._v("取消")]
                 )
               ],
               1
@@ -70945,7 +70945,7 @@ var render = function() {
                     staticClass: "ml-1 btn btn-info btn-sm",
                     on: { click: _vm.editReply }
                   },
-                  [_vm._v("Edit")]
+                  [_vm._v("編輯")]
                 ),
                 _vm._v(" "),
                 _c(
@@ -70954,7 +70954,7 @@ var render = function() {
                     staticClass: "ml-1 btn btn-danger  btn-sm",
                     on: { click: _vm.destroy }
                   },
-                  [_vm._v("Delete")]
+                  [_vm._v("刪除")]
                 )
               ])
             : _vm._e(),
@@ -70973,7 +70973,7 @@ var render = function() {
               staticClass: "ml-a btn btn-success btn-sm",
               on: { click: _vm.markBestReply }
             },
-            [_vm._v("Best Reply")]
+            [_vm._v("最佳回覆")]
           )
         ])
       : _vm._e()

@@ -9,12 +9,12 @@
                     @trix-change="change"></wysiwyg>
             </div>
 
-            <button class="btn btn-primary mt-3" @click="addReply">reply</button>
+            <button class="btn btn-primary mt-3" @click="addReply">回覆</button>
         </div>
 
         <p v-else
             class="text-center">
-            Please <a href="/login">sign in</a> to participate in the forum
+            請先 <a href="/login">登入</a> 來參與回覆
         </p>
     </div>
 </template>

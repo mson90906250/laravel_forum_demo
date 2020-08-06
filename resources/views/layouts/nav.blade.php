@@ -13,26 +13,26 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Browse Threads
+                      瀏覽文章
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ route('thread.index') }}">All Threads</a>
-                        <a class="dropdown-item" href="{{ route('thread.index', ['popular' => 1]) }}">Popular Threads</a>
-                        <a class="dropdown-item" href="{{ route('thread.index', ['unanswered' => 1]) }}">Unanswered Threads</a>
+                        <a class="dropdown-item" href="{{ route('thread.index') }}">所有文章</a>
+                        <a class="dropdown-item" href="{{ route('thread.index', ['popular' => 1]) }}">熱門文章</a>
+                        <a class="dropdown-item" href="{{ route('thread.index', ['unanswered' => 1]) }}">未回覆文章</a>
                         @if (auth()->check())
-                            <a class="dropdown-item" href="{{ route('thread.index', ['by' => auth()->user()->name]) }}">My Threads</a>
+                            <a class="dropdown-item" href="{{ route('thread.index', ['by' => auth()->user()->name]) }}">我的文章</a>
                         @endif
                     </div>
                   </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('thread.create') }}">New Thread</a>
+                    <a class="nav-link" href="{{ route('thread.create') }}">發表文章</a>
                 </li>
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Channels
+                      文章類型
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         @foreach($channels as $channel)
@@ -56,11 +56,11 @@
                 <!-- Authentication Links -->
                 @guest
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        <a class="nav-link" href="{{ route('login') }}">{{ __('登入') }}</a>
                     </li>
                     @if (Route::has('register'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            <a class="nav-link" href="{{ route('register') }}">{{ __('註冊') }}</a>
                         </li>
                     @endif
                 @else
@@ -75,13 +75,13 @@
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 
                             <a class="dropdown-item" href="{{ route('profile.show', auth()->user()) }}">
-                                My Profile
+                                個人檔案
                             </a>
 
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                              document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
+                                {{ __('登出') }}
                             </a>
 
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

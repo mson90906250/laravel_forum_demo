@@ -14,7 +14,7 @@
                 @if (count($trending))
                     <div class="card mb-2">
                         <div class="card-header">
-                            Trending Threads
+                            最多瀏覽人數文章
                         </div>
                         <div class="card-body">
                             <ul class="list-group">

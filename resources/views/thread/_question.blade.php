@@ -21,15 +21,15 @@
 
         <div class="level">
 
-            <button class="btn btn-sm btn-primary mr-1" @click="update">Update</button>
+            <button class="btn btn-sm btn-primary mr-1" @click="update">更新</button>
 
-            <button class="btn btn-sm btn-secondary" @click="resetForm">Cancel</button>
+            <button class="btn btn-sm btn-secondary" @click="resetForm">取消</button>
 
             @can('update', $thread)
                 <form action="{{ route('thread.destroy', $thread->pathParams()) }}" method="POST" class="mb-0 ml-a">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-link">Delete Thread</button>
+                    <button type="submit" class="btn btn-link">刪除文章</button>
                 </form>
             @endcan
 
@@ -47,7 +47,7 @@
                 <img src="{{ $thread->owner->avatar_path }}" width="25" alt="">
                 {{ $thread->owner->name }}
             </a>
-            posted : <span v-text="title"></span>
+            發表 : <span v-text="title"></span>
         </div>
 
     </div>
@@ -55,6 +55,6 @@
     <div class="card-body trix-content" v-html="body"></div>
 
     <div class="card-footer" v-if="authorize('owns', thread)">
-        <button class="btn btn-sm btn-warning" @click="toggleEdit">Edit</button>
+        <button class="btn btn-sm btn-warning" @click="toggleEdit">編輯</button>
     </div>
 </div>

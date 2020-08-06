@@ -7,7 +7,7 @@
                     <a :href="'/profiles/' + reply.owner.name" v-text="reply.owner.name">
 
                     </a>
-                    said <span v-text="ago"></span>
+                    回覆於 <span v-text="ago"></span>
                 </div>
 
                 <favorite :reply="reply"></favorite>
@@ -24,8 +24,8 @@
                         :value="body"
                         @trix-mounted='prepareTribute'
                         @trix-change="change"></wysiwyg>
-                    <button class="btn btn-sm btn-primary">Update</button>
-                    <button type="button" class="btn btn-sm btn-link" @click="editing = false; body = reply.body">Cancel</button>
+                    <button class="btn btn-sm btn-primary">更新</button>
+                    <button type="button" class="btn btn-sm btn-link" @click="editing = false; body = reply.body">取消</button>
                 </form>
             </div>
 
@@ -36,11 +36,11 @@
 
         <div class="card-footer level" v-if="authorize('owns', reply) || authorize('owns', reply.thread)">
             <div v-if="authorize('owns', reply)">
-                <button class="ml-1 btn btn-info btn-sm" @click="editReply">Edit</button>
-                <button class="ml-1 btn btn-danger  btn-sm" @click="destroy">Delete</button>
+                <button class="ml-1 btn btn-info btn-sm" @click="editReply">編輯</button>
+                <button class="ml-1 btn btn-danger  btn-sm" @click="destroy">刪除</button>
             </div>
 
-            <button class="ml-a btn btn-success btn-sm" v-show="authorize('owns', reply.thread) && ! isBest" @click="markBestReply">Best Reply</button>
+            <button class="ml-a btn btn-success btn-sm" v-show="authorize('owns', reply.thread) && ! isBest" @click="markBestReply">最佳回覆</button>
         </div>
 
     </div>
