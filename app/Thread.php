@@ -79,7 +79,7 @@ class Thread extends Model
     public function visitCount()
     {
         $this->trending = $this->trending ?: new Trending;
-        return $this->trending->score($this);
+        return $this->trending->score($this) ?: 0;
     }
 
     /**
