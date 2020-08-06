@@ -1,0 +1,43 @@
+body { padding-bottom: 100px }
+
+.level { display: flex; align-items: center; }
+
+.flex { flex: 1; }
+
+.mbe-1 { margin-block-end: 1em; }
+
+.ml-a { margin-left: auto; }
+
+.bg-success { background-color: rgb(213, 253, 181) !important }
+
+.card-footer { padding: 0.5rem !important }
+
+[v-cloak] { display: none }
+
+.search-modal-header { background-color: rgb(133, 170, 238) }
+
+.search-highlight { background-color: rgb(245, 229, 91) }
+
+.min-width-0 { min-width: 0; }
+
+.text-omit {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.text-fade {
+    position: relative;
+    max-height: 300px; /* exactly three lines */
+    overflow: hidden;
+}
+.text-fade:after {
+    content: "";
+    text-align: right;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 2em;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 75%);
+}

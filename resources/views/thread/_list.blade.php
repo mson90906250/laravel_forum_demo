@@ -35,7 +35,7 @@
 
             </div>
         </div>
-        <div class="card-body trix-content">
+        <div class="card-body trix-content text-fade">
             <p>{!! $thread->body !!}</p>
         </div>
         <div class="card-footer level">

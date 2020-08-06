@@ -22,25 +22,9 @@
 
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.3/trix.css">
-        <style>
-            body { padding-bottom: 100px }
-            .level { display: flex; align-items: center; }
-            .flex { flex: 1; }
-            .mbe-1 { margin-block-end: 1em; }
-            .ml-a { margin-left: auto; }
-            .bg-success { background-color: rgb(213, 253, 181) !important }
-            .card-footer { padding: 0.5rem !important }
-            [v-cloak] { display: none }
-            .search-modal-header { background-color: rgb(133, 170, 238) }
-            .search-highlight { background-color: rgb(245, 229, 91) }
-            .text-omit {
-                overflow: hidden;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-            }
-            .min-width-0 { min-width: 0; }
-        </style>
+
 
         @yield('head')
 
