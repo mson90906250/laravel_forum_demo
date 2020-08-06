@@ -12758,59 +12758,58 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _SearchResults_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SearchResults.vue */ "./resources/js/components/search/SearchResults.vue");
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+/* harmony import */ var _mixins_DelayTimer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../mixins/DelayTimer.js */ "./resources/js/mixins/DelayTimer.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    var _ref;
-
-    return _ref = {
-      isSearching: false,
+    return {
       test: 'list',
       keyword: '',
-      currentKeyword: ''
-    }, _defineProperty(_ref, "isSearching", false), _defineProperty(_ref, "results", []), _ref;
+      currentKeyword: '',
+      results: []
+    };
   },
+  mixins: [_mixins_DelayTimer_js__WEBPACK_IMPORTED_MODULE_1__["default"]],
   components: {
     SearchResults: _SearchResults_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
@@ -12822,17 +12821,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     search: function search() {
       var _this = this;
 
-      if (this.isSearching || this.keyword.length == 0 || this.currentKeyword === this.keyword) return;
-      this.isSearching = true;
+      if (this.keyword.length == 0 || this.currentKeyword === this.keyword) return;
       this.currentKeyword = this.keyword;
-      axios.get('/threads/search?q=' + this.keyword).then(function (_ref2) {
-        var data = _ref2.data;
+      axios.get('/threads/search?q=' + this.keyword).then(function (_ref) {
+        var data = _ref.data;
         _this.results = data.hits.hits;
-        _this.isSearching = false;
       });
-      setTimeout(function () {
-        return _this.isSearching = false;
-      }, 200);
     }
   }
 });
@@ -71187,7 +71181,9 @@ var render = function() {
                       }
                       _vm.keyword = $event.target.value
                     },
-                    _vm.search
+                    function($event) {
+                      return _vm.delay(_vm.search, 200)
+                    }
                   ]
                 }
               })
@@ -84622,6 +84618,31 @@ __webpack_require__.r(__webpack_exports__);
     add: function add(item) {
       this.items.push(item);
       this.$emit('added');
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/mixins/DelayTimer.js":
+/*!*******************************************!*\
+  !*** ./resources/js/mixins/DelayTimer.js ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      delayTimer: 0
+    };
+  },
+  methods: {
+    delay: function delay(callback, ms) {
+      clearTimeout(this.delayTimer);
+      this.delayTimer = setTimeout(callback, ms);
     }
   }
 });

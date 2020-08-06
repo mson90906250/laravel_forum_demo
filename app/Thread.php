@@ -38,7 +38,7 @@ class Thread extends Model
 
     public function toSearchableArray()
     {
-        $config = ['HTML.Allowed' => 'div,h1,h2,h3,h4,h5,h6,b,strong,i,em,del,a,ul,ol,li,p,br,span,pre'];
+        $config = ['HTML.Allowed' => ''];
 
         return [
             'title' => $this->title,

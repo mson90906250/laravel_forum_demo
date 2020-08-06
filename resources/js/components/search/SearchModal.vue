@@ -12,7 +12,7 @@
                         <input type="text"
                             class="form-control"
                             placeholder="Search Threads ..."
-                            @input="search"
+                            @input="delay(search, 200)"
                             v-model="keyword">
 
                     </div>
@@ -39,18 +39,19 @@
 
 <script>
     import SearchResults from "./SearchResults.vue";
+    import delayTimer from "../../mixins/DelayTimer.js";
 
     export default {
         data() {
             return {
-                isSearching: false,
                 test: 'list',
                 keyword: '',
                 currentKeyword: '',
-                isSearching: false,
-                results: [],
+                results: []
             }
         },
+
+        mixins: [delayTimer],
 
         components: { SearchResults },
 
@@ -61,18 +62,14 @@
             },
 
             search() {
-                if (this.isSearching || this.keyword.length == 0 || this.currentKeyword === this.keyword) return;
+                if (this.keyword.length == 0 || this.currentKeyword === this.keyword) return;
 
-                this.isSearching = true;
                 this.currentKeyword = this.keyword;
 
                 axios.get('/threads/search?q=' + this.keyword)
                     .then(({data}) => {
                         this.results = data.hits.hits;
-                        this.isSearching = false;
                     });
-
-                setTimeout(() => this.isSearching = false, 200);
             }
         }
     }
