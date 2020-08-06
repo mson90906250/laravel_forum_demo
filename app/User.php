@@ -17,7 +17,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'avatar_path'
+        'name', 'email', 'password', 'avatar_path', 'email_verified_at'
     ];
 
     /**
@@ -88,7 +88,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function isAdmin()
     {
-        return in_array($this->name, ['MarkLin']);
+        return in_array($this->name, ['admin']);
     }
 
     public function visitedThreadCacheKey($thread)

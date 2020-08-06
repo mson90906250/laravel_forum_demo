@@ -83545,7 +83545,7 @@ module.exports = {
     return flag;
   },
   isAdmin: function isAdmin() {
-    return ['MarkLin'].includes(user.name);
+    return ['admin'].includes(user.name);
   }
 };
 

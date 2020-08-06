@@ -18,6 +18,6 @@ module.exports = {
     },
 
     isAdmin() {
-        return ['MarkLin'].includes(user.name);
+        return ['admin'].includes(user.name);
     }
 };

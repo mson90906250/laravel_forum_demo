@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
         // 針對單一view
         View::creator('*', function ($view) {
 
-            $channels = Cache::rememberForever('channels', function () {
+            $channels = Cache::remember('channels', 5, function () {
                 return Channel::all();
             });
 
