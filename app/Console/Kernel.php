@@ -27,7 +27,8 @@ class Kernel extends ConsoleKernel
     {
         // 每日清理前一天的待刪圖片
         $schedule->command('trix:clear start')
-            ->dailyAt('12:00')
+            ->daily()
+            ->between('12:00', '18:00')
             ->runInBackground();
     }
 
