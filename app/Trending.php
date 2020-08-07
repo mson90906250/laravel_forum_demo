@@ -19,16 +19,16 @@ class Trending
 
     public function score($thread)
     {
-        return Redis::zscore($this->cacheKey(), $thread->slug);
+        return Redis::zscore($this->cacheKey(), $thread->id);
     }
 
     public function push($thread)
     {
-        Redis::zincrby($this->cacheKey(), 1, $thread->slug);
+        Redis::zincrby($this->cacheKey(), 1, $thread->id);
 
         Redis::hset(
             $this->hashTableKey(),
-            $thread->slug,
+            $thread->id,
             json_encode([
                 'title' => $thread->title,
                 'path' => route('thread.show', $thread->pathParams())
@@ -38,8 +38,8 @@ class Trending
 
     public function remove($thread)
     {
-        Redis::zrem($this->cacheKey(), $thread->slug);
-        Redis::hdel($this->hashTableKey(), $thread->slug);
+        Redis::zrem($this->cacheKey(), $thread->id);
+        Redis::hdel($this->hashTableKey(), $thread->id);
     }
 
     public function reset()
