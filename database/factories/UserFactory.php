@@ -29,6 +29,6 @@ $factory->define(User::class, function (Faker $faker) {
 
 $factory->state(User::class, 'administrator', function () {
     return [
-        'name' => 'MarkLin'
+        'name' => 'admin'
     ];
 });

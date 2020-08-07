@@ -29,7 +29,7 @@ class AuthServiceProvider extends ServiceProvider
 
         // 授予特定使用者(superadmin)所有權限
         Gate::before(function ($user) {
-            return $user->name === 'admin';
+            if ($user->name === 'admin') return true;
         });
     }
 }
