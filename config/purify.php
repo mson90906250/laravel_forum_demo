@@ -67,8 +67,8 @@ return [
         |
         */
 
-        'HTML.Allowed' => 'div[class],pre,h1,h2,h3,h4,h5,h6,b,strong,i,em,del,ul,ol,li,p[style],br,
-            a[title|rel|tabindex|contenteditable|data-trix-attachment|data-trix-content-type|data-trix-id],
+        'HTML.Allowed' => 'div[class],pre,h1,h2,h3,h4,h5,h6,b,strong,i,em,del,ul,ol,li,p[style],br,blockquote,
+            a[href|title|rel|tabindex|contenteditable|data-trix-attachment|data-trix-content-type|data-trix-id],
             span[class|data-trix-cursor-target|data-trix-serialize],
             figure[class|contenteditable|data-trix-attachment|data-trix-content-type|data-trix-id|data-trix-attributes],
             figcaption[class|data-trix-placeholder],

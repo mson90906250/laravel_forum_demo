@@ -3,6 +3,7 @@
 namespace App;
 
 use Carbon\Carbon;
+use Stevebauman\Purify\Facades\Purify;
 use Illuminate\Database\Eloquent\Model;
 
 class Reply extends Model
@@ -32,6 +33,11 @@ class Reply extends Model
     public function isBest()
     {
         return $this->thread->best_reply_id == $this->id;
+    }
+
+    public function getBodyAttribute($body)
+    {
+        return Purify::clean($body);
     }
 
     public function getIsBestAttribute()

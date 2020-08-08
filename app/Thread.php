@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Visit;
 use Illuminate\Support\Str;
 use App\Filters\ThreadFilter;
 use Laravel\Scout\Searchable;

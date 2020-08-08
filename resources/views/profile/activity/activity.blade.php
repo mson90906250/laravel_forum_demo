@@ -8,7 +8,7 @@
 
     </div>
 
-    <div class="card-body">
+    <div class="card-body trix-content text-fade">
         {{ $body }}
     </div>
 
