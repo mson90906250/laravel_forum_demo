@@ -84634,16 +84634,14 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      delayTimer: 0
-    };
-  },
   methods: {
-    delay: function delay(callback, ms) {
-      clearTimeout(this.delayTimer);
-      this.delayTimer = setTimeout(callback, ms);
-    }
+    delay: function () {
+      var timer = 0;
+      return function (callback, ms) {
+        clearTimeout(timer);
+        timer = setTimeout(callback, ms);
+      };
+    }()
   }
 });
 
@@ -84660,14 +84658,13 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tributejs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tributejs */ "./node_modules/tributejs/dist/tribute.min.js");
 /* harmony import */ var tributejs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(tributejs__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _DelayTimer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DelayTimer.js */ "./resources/js/mixins/DelayTimer.js");
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   methods: {
     prepareTribute: function prepareTribute(data) {
       if (!this.signIn) return;
-      var delayFlag = false; //用來控制axios觸發的時間間隔
-
-      var currentData = [];
       var tribute = new tributejs__WEBPACK_IMPORTED_MODULE_0___default.a({
         fillAttr: 'name',
         lookup: 'name',
@@ -84675,15 +84672,13 @@ __webpack_require__.r(__webpack_exports__);
           return '@' + item.original.name + '&#141;'; //在後面添加無法顯示的符號 以方便做區隔 '&#141;' => 'U+008D'
         },
         values: function values(text, callback) {
-          if (delayFlag) return callback(currentData);
-          delayFlag = true;
-          axios.get('/api/users?name=' + text).then(function (_ref) {
-            var data = _ref.data;
-            return callback(data);
-          });
-          setTimeout(function () {
-            return delayFlag = false;
-          }, 200);
+          _DelayTimer_js__WEBPACK_IMPORTED_MODULE_1__["default"].methods.delay(function () {
+            if (text.length < 1) return;
+            axios.get('/api/users?name=' + text).then(function (_ref) {
+              var data = _ref.data;
+              return callback(data);
+            });
+          }, 500);
         }
       });
       tribute.attach(document.getElementById(data.id));
