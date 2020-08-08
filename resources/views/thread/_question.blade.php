@@ -54,7 +54,7 @@
 
     <div class="card-body trix-content" v-html="body"></div>
 
-    <div class="card-footer" v-if="authorize('owns', thread)">
+    <div class="card-footer" v-if="authorize('owns', thread) && ! locked">
         <button class="btn btn-sm btn-warning" @click="toggleEdit">編輯</button>
     </div>
 </div>

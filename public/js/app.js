@@ -12333,11 +12333,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['data'],
+  props: ['data', 'threadLocked'],
   components: {
     Reply: _Reply_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     NewReply: _NewReply_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
@@ -12458,7 +12459,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['reply'],
+  props: ['reply', 'threadLocked'],
   data: function data() {
     return {
       editing: false,
@@ -70797,7 +70798,7 @@ var render = function() {
       _vm._l(_vm.items, function(reply, index) {
         return _c("reply", {
           key: reply.id,
-          attrs: { reply: reply },
+          attrs: { "thread-locked": _vm.threadLocked, reply: reply },
           on: {
             deleted: function($event) {
               return _vm.remove(index)
@@ -70814,10 +70815,8 @@ var render = function() {
         on: { "page-changed": _vm.fetch }
       }),
       _vm._v(" "),
-      _vm.$parent.locked
-        ? _c("p", [
-            _vm._v("This thread has been locked. No more replies allowed")
-          ])
+      _vm.threadLocked
+        ? _c("p", [_vm._v("此文章已被封鎖, 無法回覆")])
         : _c("new-reply", { on: { created: _vm.showReply } })
     ],
     2
@@ -70929,7 +70928,9 @@ var render = function() {
           })
     ]),
     _vm._v(" "),
-    _vm.authorize("owns", _vm.reply) || _vm.authorize("owns", _vm.reply.thread)
+    (_vm.authorize("owns", _vm.reply) ||
+      _vm.authorize("owns", _vm.reply.thread)) &&
+    !_vm.threadLocked
       ? _c("div", { staticClass: "card-footer level" }, [
           _vm.authorize("owns", _vm.reply)
             ? _c("div", [

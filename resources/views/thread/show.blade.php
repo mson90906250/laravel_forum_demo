@@ -18,6 +18,7 @@
                     @include('thread._question')
 
                     <replies :data="{{ $thread->replies }}"
+                        :thread-locked="locked"
                         @removed="repliesCount--"
                         @added="repliesCount++"
                         @replies-count-changed="newCount => repliesCount = newCount"></replies>

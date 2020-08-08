@@ -34,7 +34,7 @@
                 class="trix-content"></div>
         </div>
 
-        <div class="card-footer level" v-if="authorize('owns', reply) || authorize('owns', reply.thread)">
+        <div class="card-footer level" v-if="(authorize('owns', reply) || authorize('owns', reply.thread)) && ! threadLocked">
             <div v-if="authorize('owns', reply)">
                 <button class="ml-1 btn btn-info btn-sm" @click="editReply">編輯</button>
                 <button class="ml-1 btn btn-danger  btn-sm" @click="destroy">刪除</button>
@@ -53,7 +53,7 @@
     import tribute from '../mixins/Tribute.js';
 
     export default {
-        props: ['reply'],
+        props: ['reply', 'threadLocked'],
 
         data() {
             return {

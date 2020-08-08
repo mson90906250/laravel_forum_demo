@@ -1,6 +1,7 @@
 <template>
     <div>
         <reply v-for="(reply, index) in items"
+            :thread-locked="threadLocked"
             :key="reply.id"
             :reply="reply"
             @deleted="remove(index)"
@@ -8,7 +9,7 @@
 
         <paginator :ajaxFlag="ajaxFlag" :dataSet="dataSet" @page-changed="fetch"></paginator>
 
-        <p v-if="$parent.locked">This thread has been locked. No more replies allowed</p>
+        <p v-if="threadLocked">此文章已被封鎖, 無法回覆</p>
 
         <new-reply v-else @created="showReply"></new-reply>
     </div>
@@ -20,7 +21,7 @@
     import collecion from '../mixins/Collection.js';
 
     export default {
-        props: ['data'],
+        props: ['data', 'threadLocked'],
 
         components: { Reply, NewReply },
 
