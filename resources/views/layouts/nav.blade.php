@@ -3,13 +3,15 @@
 
     <div class="container" ref="container">
 
-        <a class="navbar-brand"
-            :class="currentWidth < 768 ? 'flex' : ''"
-            href="{{ url('/') }}">
+        <div :class="currentWidth < 768 ? 'flex' : ''">
+            <a class="navbar-brand"
+                href="{{ url('/') }}">
 
-            {{ config('app.name', 'Laravel') }}
+                {{ config('app.name', 'Laravel') }}
 
-        </a>
+            </a>
+        </div>
+
 
         <button class="navbar-toggler"
             ref="navbarToggler"
