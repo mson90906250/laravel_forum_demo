@@ -1,8 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <div class="col-md-8 offset-2">
+    <profile class="container" inline-template>
+        <div class="col-md-8"
+            :class="currentWidth < 768 ? '' : 'offset-2'">
             <div class="card mb-2">
                 <avatar-form :profile-user="{{ $profileUser }}"></avatar-form>
             </div>
@@ -25,5 +26,5 @@
             @endforelse
 
         </div>
-    </div>
+    </profile>
 @endsection

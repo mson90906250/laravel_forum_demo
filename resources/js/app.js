@@ -35,15 +35,20 @@ Vue.prototype.signIn = !! window.App.user;
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('flash', require('./components/Flash.vue').default);
-Vue.component('thread-view', require('./pages/Thread.vue').default);
-Vue.component('thread-create', require('./pages/ThreadCreate.vue').default);
 Vue.component('paginator', require('./components/Paginator.vue').default);
-Vue.component('nav-vue', require('./pages/NavVue.vue').default);
 Vue.component('user-notification', require('./components/UserNotification.vue').default);
 Vue.component('avatar-form', require('./components/AvatarForm.vue').default);
-Vue.component('search-modal', require('./components/search/SearchModal.vue').default);
 Vue.component('wysiwyg', require('./components/Wysiwyg.vue').default);
 Vue.component('fa-icon', require('./components/FontAwesome.vue').default);
+
+//search
+Vue.component('search-modal', require('./components/search/SearchModal.vue').default);
+
+//page
+Vue.component('profile', require('./pages/Profile.vue').default);
+Vue.component('nav-vue', require('./pages/NavVue.vue').default);
+Vue.component('thread-view', require('./pages/Thread.vue').default);
+Vue.component('thread-create', require('./pages/ThreadCreate.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
