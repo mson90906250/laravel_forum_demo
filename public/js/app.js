@@ -12585,6 +12585,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -12816,10 +12818,6 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     SearchResults: _SearchResults_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  mounted: function mounted() {
-    window.addEventListener('resize', this.emitResize);
-    this.emitResize(); //初始化
-  },
   destroyed: function destroyed() {
     window.removeEventListener('resize');
   },
@@ -12836,12 +12834,6 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('/threads/search?q=' + this.keyword).then(function (_ref) {
         var data = _ref.data;
         _this.results = data.hits.hits;
-      });
-    },
-    emitResize: function emitResize() {
-      this.$emit('resize', {
-        el: this.$el,
-        width: document.body.clientWidth
       });
     }
   }
@@ -12907,16 +12899,46 @@ __webpack_require__.r(__webpack_exports__);
       currentWidth: document.body.clientWidth
     };
   },
+  mounted: function mounted() {
+    window.addEventListener('resize', this.checkWidth);
+    this.checkWidth();
+  },
+  destroyed: function destroyed() {
+    window.removeEventListener('resize', this.checkWidth);
+  },
   methods: {
     // 根據寬度的變化, 改變搜尋按鈕位置
-    checkWidth: function checkWidth(data) {
-      if (data.width < 768) {
-        this.$refs.container.insertBefore(data.el, this.$refs.navbarToggler);
+    checkWidth: function checkWidth() {
+      if (document.body.clientWidth < 768) {
+        this.moveSearch(true);
+        this.moveNotification(true);
       } else {
-        this.$refs.searchBar.appendChild(data.el);
+        this.moveSearch(false);
+        this.moveNotification(false);
       }
 
-      this.currentWidth = data.width;
+      this.currentWidth = document.body.clientWidth;
+    },
+    moveSearch: function moveSearch() {
+      var isMobile = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+      var search = this.$refs.search.$el;
+
+      if (isMobile) {
+        this.$refs.container.insertBefore(search, this.$refs.navbarToggler);
+      } else {
+        this.$refs.searchContainer.appendChild(search);
+      }
+    },
+    moveNotification: function moveNotification(isMobile) {
+      if (!this.$refs.notification) return;
+      var notification = this.$refs.notification.$el;
+      var search = this.$refs.search.$el;
+
+      if (isMobile) {
+        this.$refs.container.insertBefore(notification, search);
+      } else {
+        this.$refs.notificationContainer.appendChild(notification);
+      }
     }
   }
 });
@@ -71102,7 +71124,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _vm.notifications.length
-    ? _c("li", { staticClass: "nav-item dropdown" }, [
+    ? _c("div", { staticClass: " dropdown" }, [
         _c(
           "a",
           {

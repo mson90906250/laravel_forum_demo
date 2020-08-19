@@ -2,6 +2,7 @@
     inline-template>
 
     <div class="container" ref="container">
+
         <a class="navbar-brand"
             :class="currentWidth < 768 ? 'flex' : ''"
             href="{{ url('/') }}">
@@ -9,6 +10,7 @@
             {{ config('app.name', 'Laravel') }}
 
         </a>
+
         <button class="navbar-toggler"
             ref="navbarToggler"
             type="button"
@@ -63,8 +65,8 @@
 
                 {{-- search bar --}}
                 <li class="nav-item mr-5">
-                    <div class="level" ref="searchBar">
-                        <search-modal @resize="checkWidth"></search-modal>
+                    <div class="level" ref="searchContainer">
+                        <search-modal ref="search"></search-modal>
                     </div>
                 </li>
 
@@ -81,7 +83,9 @@
                     @endif
                 @else
 
-                    <user-notification></user-notification>
+                    <li class="nav-item" ref="notificationContainer">
+                        <user-notification ref="notification"></user-notification>
+                    </li>
 
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

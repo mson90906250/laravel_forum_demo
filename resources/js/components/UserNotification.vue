@@ -1,5 +1,6 @@
 <template>
-    <li class="nav-item dropdown" v-if="notifications.length">
+    <div class=" dropdown" v-if="notifications.length">
+
         <a id="navbarDropdown" class="nav-link" href="#" role="button" data-toggle="dropdown">
             <fa-icon icon="bell" :style="{ color: 'tomato' }"/>
         </a>
@@ -13,7 +14,8 @@
                 @click="markAsRead(notification, index)"></a>
 
         </div>
-    </li>
+
+    </div>
 </template>
 
 <script>

@@ -53,11 +53,6 @@
 
         components: { SearchResults },
 
-        mounted() {
-            window.addEventListener('resize', this.emitResize);
-            this.emitResize(); //初始化
-        },
-
         destroyed() {
             window.removeEventListener('resize');
         },
@@ -77,10 +72,6 @@
                     .then(({data}) => {
                         this.results = data.hits.hits;
                     });
-            },
-
-            emitResize() {
-                this.$emit('resize', {el: this.$el, width: document.body.clientWidth});
             }
         }
     }
