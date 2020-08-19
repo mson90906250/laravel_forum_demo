@@ -57,7 +57,7 @@ class ReplyTest extends TestCase
         ]);
 
         $this->assertEquals(
-            'Hello <a href="/profiles/MarkLin">@MarkLin'. "\u{008D}" .'</a>',
+            'Hello <a href="/profiles/MarkLin">@MarkLin</a>',
             $reply->body
         );
     }
