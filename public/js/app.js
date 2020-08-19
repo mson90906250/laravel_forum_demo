@@ -12193,6 +12193,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -12211,15 +12212,17 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.post(this.endpoint, {
         body: this.body
-      }).then(function (_ref) {
-        var data = _ref.data;
+      })["catch"](function (_ref) {
+        var response = _ref.response;
+        flash(response.data.message, 'danger');
+      }).then(function (_ref2) {
+        var data = _ref2.data;
         _this.body = '';
         flash('Your reply has been posted');
 
         _this.$emit('created', data);
-      })["catch"](function (_ref2) {
-        var response = _ref2.response;
-        flash(response.data.message, 'danger');
+
+        _this.$refs.wysiwyg.cleanContent();
       });
     }
   }
@@ -12643,6 +12646,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['id', 'name', 'value', 'trixPersist', 'acceptFile'],
@@ -12749,6 +12753,12 @@ __webpack_require__.r(__webpack_exports__);
     cancelUpload: function cancelUpload(e) {
       e.preventDefault();
       flash('目前reply不提供上傳圖片的功能 !!', 'danger');
+    },
+    cleanContent: function cleanContent() {
+      var editor = this.$refs.editor.editor;
+      var range = [0, editor.getSelectedRange()[1]];
+      editor.setSelectedRange(range);
+      editor.deleteInDirection('backward');
     }
   }
 });
@@ -70720,6 +70730,7 @@ var render = function() {
             { staticClass: "bg-white p-1" },
             [
               _c("wysiwyg", {
+                ref: "wysiwyg",
                 attrs: {
                   id: "new-reply",
                   name: "body",
@@ -71199,6 +71210,7 @@ var render = function() {
       }),
       _vm._v(" "),
       _c("trix-editor", {
+        ref: "editor",
         staticClass: "trix-content",
         attrs: { id: _vm.trixId, input: _vm.id },
         on: {

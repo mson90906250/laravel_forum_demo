@@ -2,7 +2,8 @@
     <div>
         <div v-if="signIn">
             <div class="bg-white p-1">
-                <wysiwyg id="new-reply"
+                <wysiwyg ref="wysiwyg"
+                    id="new-reply"
                     name="body"
                     accept-file="false"
                     @trix-mounted="prepareTribute"
@@ -39,14 +40,16 @@
 
             addReply() {
                 axios.post(this.endpoint, { body: this.body} )
+                    .catch(({response}) => {
+                        flash(response.data.message, 'danger');
+                    })
                     .then(({data}) => {
                         this.body = '';
                         flash('Your reply has been posted');
                         this.$emit('created', data);
-                    })
-                    .catch(({response}) => {
-                        flash(response.data.message, 'danger');
-                    })
+                        this.$refs.wysiwyg.cleanContent();
+                    });
+
             }
         }
     }

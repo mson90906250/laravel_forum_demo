@@ -1,7 +1,8 @@
 <template>
     <div>
         <input :id="id" type="hidden" :name="name" :value="value">
-        <trix-editor class="trix-content"
+        <trix-editor ref="editor"
+            class="trix-content"
             :id="trixId"
             :input="id"
             @trix-change="change"
@@ -123,6 +124,13 @@
             cancelUpload(e) {
                 e.preventDefault();
                 flash('目前reply不提供上傳圖片的功能 !!', 'danger');
+            },
+
+            cleanContent() {
+                let editor = this.$refs.editor.editor;
+                let range = [0, editor.getSelectedRange()[1]];
+                editor.setSelectedRange(range);
+                editor.deleteInDirection('backward');
             }
         }
     }
