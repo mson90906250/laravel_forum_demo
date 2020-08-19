@@ -12605,8 +12605,12 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
-    markAsRead: function markAsRead(notification) {
-      axios["delete"](this.endpoint + '/' + notification.id);
+    markAsRead: function markAsRead(notification, index) {
+      var _this2 = this;
+
+      axios["delete"](this.endpoint + '/' + notification.id).then(function () {
+        _this2.notifications.splice(index, 1);
+      });
     }
   }
 });
@@ -71125,14 +71129,14 @@ var render = function() {
             staticClass: "dropdown-menu dropdown-menu-right",
             attrs: { "aria-labelledby": "navbarDropdown" }
           },
-          _vm._l(_vm.notifications, function(notification) {
+          _vm._l(_vm.notifications, function(notification, index) {
             return _c("a", {
               staticClass: "dropdown-item",
               attrs: { href: notification.data.link },
               domProps: { textContent: _vm._s(notification.data.message) },
               on: {
                 click: function($event) {
-                  return _vm.markAsRead(notification)
+                  return _vm.markAsRead(notification, index)
                 }
               }
             })

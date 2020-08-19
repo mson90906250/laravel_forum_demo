@@ -8,9 +8,9 @@
 
             <a class="dropdown-item"
                 :href="notification.data.link"
-                v-for="notification in notifications"
+                v-for="(notification, index) in notifications"
                 v-text="notification.data.message"
-                @click="markAsRead(notification)"></a>
+                @click="markAsRead(notification, index)"></a>
 
         </div>
     </li>
@@ -37,8 +37,11 @@
         },
 
         methods: {
-            markAsRead(notification) {
-                axios.delete(this.endpoint + '/' + notification.id);
+            markAsRead(notification, index) {
+                axios.delete(this.endpoint + '/' + notification.id)
+                    .then(() => {
+                        this.notifications.splice(index, 1);
+                    });
             }
         }
     }
