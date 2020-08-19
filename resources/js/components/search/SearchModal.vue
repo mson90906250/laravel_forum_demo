@@ -20,8 +20,6 @@
                     <!-- body -->
                     <div class="modal-body">
 
-                        <!-- <search-tags ></search-tags> -->
-
                         <search-results :results="results"></search-results>
 
                     </div>
@@ -54,6 +52,17 @@
         mixins: [delayTimer],
 
         components: { SearchResults },
+
+         mounted() {
+            let $vm0 = this;
+            window.addEventListener('resize', function (e) {
+                $vm0.$emit('resize', {el: $vm0.$el, width: window.screen.width});
+            });
+        },
+
+        destroyed() {
+            window.removeEventListener('resize');
+        },
 
         methods: {
             reset() {

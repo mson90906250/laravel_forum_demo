@@ -1,10 +1,25 @@
-<nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-    <div class="container">
-        <a class="navbar-brand" href="{{ url('/') }}">
+<nav-vue class="navbar navbar-expand-md navbar-light bg-white shadow-sm"
+    inline-template>
+
+    <div class="container" ref="container">
+        <a class="navbar-brand"
+            :class="currentWidth < 768 ? 'flex' : ''"
+            href="{{ url('/') }}">
+
             {{ config('app.name', 'Laravel') }}
+
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+        <button class="navbar-toggler"
+            ref="navbarToggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="{{ __('Toggle navigation') }}">
+
             <span class="navbar-toggler-icon"></span>
+
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -43,12 +58,13 @@
             </ul>
 
             <!-- Right Side Of Navbar -->
-            <ul class="navbar-nav ml-auto align-items-center">
+            <ul class="navbar-nav ml-auto"
+                :class="currentWidth < 768 ? '' :  'align-items-center'">
 
                 {{-- search bar --}}
                 <li class="nav-item mr-5">
-                    <div class="level">
-                        <search-modal></search-modal>
+                    <div class="level" ref="searchBar">
+                        <search-modal @resize="checkWidth"></search-modal>
                     </div>
                 </li>
 
@@ -84,7 +100,7 @@
                                 {{ __('登出') }}
                             </a>
 
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none">
                                 @csrf
                             </form>
                         </div>
@@ -93,4 +109,4 @@
             </ul>
         </div>
     </div>
-</nav>
+</nav-vue>
