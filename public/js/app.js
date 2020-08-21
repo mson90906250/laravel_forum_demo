@@ -70587,7 +70587,7 @@ var render = function() {
     _c("div", { staticClass: "card-header text-muted level" }, [
       _c("img", {
         staticClass: "mr-2 mb-2",
-        attrs: { src: _vm.avatar, width: "40", alt: "" }
+        attrs: { src: _vm.avatar, width: "40", height: "40", alt: "" }
       }),
       _vm._v(" "),
       _c("h1", { domProps: { textContent: _vm._s(_vm.profileUser.name) } })
@@ -85031,9 +85031,9 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\MarkLin\Desktop\env\dev\project\forum\resources\js\app.js */"./resources/js/app.js");
-__webpack_require__(/*! C:\Users\MarkLin\Desktop\env\dev\project\forum\resources\sass\app.scss */"./resources/sass/app.scss");
-module.exports = __webpack_require__(/*! C:\Users\MarkLin\Desktop\env\dev\project\forum\resources\sass\pages\welcome.scss */"./resources/sass/pages/welcome.scss");
+__webpack_require__(/*! C:\Users\MarkLin\Desktop\env\demo\project\laravel_forum_demo\resources\js\app.js */"./resources/js/app.js");
+__webpack_require__(/*! C:\Users\MarkLin\Desktop\env\demo\project\laravel_forum_demo\resources\sass\app.scss */"./resources/sass/app.scss");
+module.exports = __webpack_require__(/*! C:\Users\MarkLin\Desktop\env\demo\project\laravel_forum_demo\resources\sass\pages\welcome.scss */"./resources/sass/pages/welcome.scss");
 
 
 /***/ })

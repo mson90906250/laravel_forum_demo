@@ -2,7 +2,7 @@
     <div>
 
         <div class="card-header text-muted level">
-            <img :src="avatar" class="mr-2 mb-2" width="40" alt="">
+            <img :src="avatar" class="mr-2 mb-2" width="40" height="40" alt="">
             <h1 v-text="profileUser.name"></h1>
         </div>
 

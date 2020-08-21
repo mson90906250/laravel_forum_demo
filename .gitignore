@@ -2,7 +2,8 @@
 /public/hot
 /public/storage
 /storage/*.key
-/storage/purify
+/storage/purify/*
+!/storage/purify/README.md
 /vendor
 .env
 .env.testing
