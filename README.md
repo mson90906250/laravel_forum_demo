@@ -16,8 +16,16 @@
     </li>
 </ul>
 
-此demo大約花了1個月的時間完成, 這期間有部分時間是用來自學vue, laravel, elasticsearch, tdd開發模式和研究一些套件的使用, 所以如果有哪些地方需要改善, 請不吝賜教
+此demo大約花了1個半月的時間完成, 這期間有部分時間是用來自學vue, laravel, elasticsearch, tdd開發模式和研究一些套件的使用, 所以如果有哪些地方需要改善, 請不吝賜教
 
 ## 使用方法
 
-未完成
+<ol>
+    <li>clone下來後,到此專案的根目錄下執行"composer install -o"命令</li>
+    <li>composer安裝完後, 執行"npm install"命令</li>
+    <li>根據需求來調整.env檔案(從.env.example 複製過來)</li>
+    <li>設定完, 執行"php artisan key:generate"</li>
+    <li>再執行"php artisan migrate" (如果要產生測試資料可在指令後加 "--seed")</li>
+    <li>最後一步, 執行"php artisan storage:link"</li>
+    <li>如果要使用cron來定時處理沒用到的圖片, 可在cron裡, 加入"* * * * * cd /var/www/laravel-forum && php artisan schedule:run >> /dev/null 2>&1"</li>
+</ol>
