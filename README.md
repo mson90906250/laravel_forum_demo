@@ -18,6 +18,17 @@
 
 此demo大約花了1個半月的時間完成, 這期間有部分時間是用來自學vue, laravel, elasticsearch, tdd開發模式和研究一些套件的使用, 所以如果有哪些地方需要改善, 請不吝賜教
 
+## 環境(主要使用docker)
+
+<ul>
+    <li>laravel: 7.16.1</li>
+    <li>php: 7.3-fpm</li>
+    <li>nginx: 1.18</li>
+    <li>mysql:5.7.22</li>
+    <li>redis:5.0.9</li>
+    <li>elasticsearch:7.8.0</li>
+</ul>
+
 ## 使用方法
 
 <ol>
